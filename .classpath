@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry excluding="com/example/sankalp/model/ContentManagement/|com/example/sankalp/model/UserManagement/" kind="src" path="BACKEND/sankalp/src/main/java"/>
+	<classpathentry kind="src" path="BACKEND/sankalp/src/main/java/com/example/sankalp/model/ContentManagement"/>
+	<classpathentry kind="src" path="BACKEND/sankalp/src/main/java/com/example/sankalp/model/UserManagement"/>
+	<classpathentry kind="src" path="BACKEND/sankalp/src/test/java"/>
+	<classpathentry kind="lib" path="BACKEND/sankalp/gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
