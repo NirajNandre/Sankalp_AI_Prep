@@ -1,0 +1,252 @@
+[
+  {
+    "question": "Which part of the Indian Constitution deals with the Fundamental Rights?",
+    "options": [
+      {
+        "text": "Part II",
+        "isCorrect": false,
+        "reason": "Part II of the Constitution deals with Citizenship (Articles 5-11)."
+      },
+      {
+        "text": "Part III",
+        "isCorrect": true,
+        "reason": "Fundamental Rights are enshrined in Part III of the Constitution, spanning from Article 12 to 35."
+      },
+      {
+        "text": "Part IV",
+        "isCorrect": false,
+        "reason": "Part IV of the Constitution deals with the Directive Principles of State Policy (DPSP)."
+      },
+      {
+        "text": "Part IV-A",
+        "isCorrect": false,
+        "reason": "Part IV-A of the Constitution contains the Fundamental Duties (Article 51A)."
+      }
+    ]
+  },
+  {
+    "question": "The Right to Equality guarantees equality before the law and equal protection of the laws. This is enshrined in which Article of the Constitution?",
+    "options": [
+      {
+        "text": "Article 15",
+        "isCorrect": false,
+        "reason": "Article 15 prohibits discrimination on grounds of religion, race, caste, sex, or place of birth."
+      },
+      {
+        "text": "Article 17",
+        "isCorrect": false,
+        "reason": "Article 17 deals with the abolition of Untouchability."
+      },
+      {
+        "text": "Article 19",
+        "isCorrect": false,
+        "reason": "Article 19 deals with the six fundamental freedoms, such as freedom of speech and expression."
+      },
+      {
+        "text": "Article 14",
+        "isCorrect": true,
+        "reason": "Article 14 forms the foundation of the Right to Equality, ensuring equal treatment under the law for all persons."
+      }
+    ]
+  },
+  {
+    "question": "Which Fundamental Right is considered the 'heart and soul' of the Constitution by Dr. B. R. Ambedkar?",
+    "options": [
+      {
+        "text": "Right to Freedom (Article 19)",
+        "isCorrect": false,
+        "reason": "While important, Article 19 is not the one referred to as the 'heart and soul' by Dr. Ambedkar."
+      },
+      {
+        "text": "Right to Constitutional Remedies (Article 32)",
+        "isCorrect": true,
+        "reason": "Article 32 grants the right to move the Supreme Court for the enforcement of Fundamental Rights, making it their protector."
+      },
+      {
+        "text": "Right to Life and Personal Liberty (Article 21)",
+        "isCorrect": false,
+        "reason": "Article 21 is very broad but does not hold the specific 'heart and soul' title bestowed by Ambedkar."
+      },
+      {
+        "text": "Right against Exploitation (Article 23 & 24)",
+        "isCorrect": false,
+        "reason": "This right protects individuals from forced labour and child labour but is not the 'heart and soul' right."
+      }
+    ]
+  },
+  {
+    "question": "The protection against 'double jeopardy' (being prosecuted and punished for the same offense more than once) is guaranteed under which of the following Articles?",
+    "options": [
+      {
+        "text": "Article 20",
+        "isCorrect": true,
+        "reason": "Article 20 provides three types of protection to individuals against arbitrary and excessive punishment, including protection against double jeopardy."
+      },
+      {
+        "text": "Article 21",
+        "isCorrect": false,
+        "reason": "Article 21 deals with the protection of life and personal liberty."
+      },
+      {
+        "text": "Article 22",
+        "isCorrect": false,
+        "reason": "Article 22 provides protection against arrest and detention in certain cases."
+      },
+      {
+        "text": "Article 19",
+        "isCorrect": false,
+        "reason": "Article 19 deals with freedom of speech, assembly, association, movement, residence, and profession."
+      }
+    ]
+  },
+  {
+    "question": "Which of the following Fundamental Rights can be suspended during a National Emergency (Article 352), with the exception of one or two specific Articles?",
+    "options": [
+      {
+        "text": "Right to Equality (Articles 14-18)",
+        "isCorrect": false,
+        "reason": "The Right to Equality can be suspended or curtailed during an Emergency."
+      },
+      {
+        "text": "Right to Constitutional Remedies (Article 32)",
+        "isCorrect": false,
+        "reason": "The right to enforce other rights can be suspended during an Emergency, though the right to remedies is essential for the duration of the state of emergency."
+      },
+      {
+        "text": "Right to Freedom (Article 19)",
+        "isCorrect": false,
+        "reason": "Article 19 is automatically suspended when a National Emergency is declared on the grounds of war or external aggression."
+      },
+      {
+        "text": "Articles 20 and 21",
+        "isCorrect": true,
+        "reason": "Articles 20 (protection in respect of conviction for offenses) and 21 (protection of life and personal liberty) can never be suspended during any emergency."
+      }
+    ]
+  },
+  {
+    "question": "The Fundamental Right that prohibits 'Traffic in human beings and forced labour' is:",
+    "options": [
+      {
+        "text": "Right to Freedom of Religion",
+        "isCorrect": false,
+        "reason": "This right relates to the freedom of conscience and free profession, practice, and propagation of religion."
+      },
+      {
+        "text": "Right against Exploitation",
+        "isCorrect": true,
+        "reason": "Article 23, under the Right against Exploitation, specifically prohibits traffic in human beings, begar (forced labour), and other similar forms of forced labour."
+      },
+      {
+        "text": "Right to Life and Personal Liberty",
+        "isCorrect": false,
+        "reason": "While related to human dignity, the specific prohibition on trafficking and forced labour falls under a different category."
+      },
+      {
+        "text": "Cultural and Educational Rights",
+        "isCorrect": false,
+        "reason": "These rights are primarily concerned with the protection of the interests of minorities."
+      }
+    ]
+  },
+  {
+    "question": "Which Writ is issued by a court to compel a public authority to perform a duty that it was legally required to perform?",
+    "options": [
+      {
+        "text": "Habeas Corpus",
+        "isCorrect": false,
+        "reason": "Habeas Corpus is issued to produce a person who has been detained, ensuring their legality of detention."
+      },
+      {
+        "text": "Quo Warranto",
+        "isCorrect": false,
+        "reason": "Quo Warranto is issued to enquire into the legality of the claim of a person to a public office."
+      },
+      {
+        "text": "Mandamus",
+        "isCorrect": true,
+        "reason": "Mandamus is a command issued by the court to a public official or corporation, ordering it to perform a public duty it has refused or failed to do."
+      },
+      {
+        "text": "Certiorari",
+        "isCorrect": false,
+        "reason": "Certiorari is issued by a higher court to a lower court or tribunal to either transfer a case or to quash an order already passed."
+      }
+    ]
+  },
+  {
+    "question": "The right of minorities to establish and administer educational institutions of their choice is protected under which Article?",
+    "options": [
+      {
+        "text": "Article 25",
+        "isCorrect": false,
+        "reason": "Article 25 guarantees freedom of conscience and the right freely to profess, practice and propagate religion."
+      },
+      {
+        "text": "Article 29",
+        "isCorrect": false,
+        "reason": "Article 29 protects the interest of minorities to conserve their distinct language, script, or culture."
+      },
+      {
+        "text": "Article 30",
+        "isCorrect": true,
+        "reason": "Article 30 grants all minorities, based on religion or language, the right to establish and administer educational institutions of their choice."
+      },
+      {
+        "text": "Article 31",
+        "isCorrect": false,
+        "reason": "Article 31, which previously dealt with the Right to Property, has been repealed as a Fundamental Right."
+      }
+    ]
+  },
+  {
+    "question": "Which Fundamental Right was removed from the list of Fundamental Rights by the 44th Amendment Act of 1978 and converted into a legal right?",
+    "options": [
+      {
+        "text": "Right to Freedom",
+        "isCorrect": false,
+        "reason": "The Right to Freedom (Article 19) remains a fundamental right, though it can be suspended during an Emergency."
+      },
+      {
+        "text": "Right to Property",
+        "isCorrect": true,
+        "reason": "The Right to Property (Article 31) was deleted from Part III and made a legal right under Article 300A."
+      },
+      {
+        "text": "Right against Exploitation",
+        "isCorrect": false,
+        "reason": "This right (Articles 23-24) remains a fundamental right."
+      },
+      {
+        "text": "Right to Constitutional Remedies",
+        "isCorrect": false,
+        "reason": "This right (Article 32) remains a fundamental right and is crucial for the enforcement of the others."
+      }
+    ]
+  },
+  {
+    "question": "The freedom of 'Speech and Expression' guaranteed by the Constitution is subject to certain reasonable restrictions. Which of the following is NOT one of the permissible grounds for restriction?",
+    "options": [
+      {
+        "text": "Decency or Morality",
+        "isCorrect": false,
+        "reason": "Decency or Morality is one of the explicit grounds mentioned in Article 19(2) for imposing restrictions."
+      },
+      {
+        "text": "Sovereignty and Integrity of India",
+        "isCorrect": false,
+        "reason": "This is a valid ground for restriction under Article 19(2)."
+      },
+      {
+        "text": "Maintenance of Law and Order",
+        "isCorrect": false,
+        "reason": "The Constitution allows restrictions on the ground of 'public order,' which is closely related to the maintenance of law and order."
+      },
+      {
+        "text": "Criticism of Government Policies",
+        "isCorrect": true,
+        "reason": "Criticism of government policies is considered an essential element of democracy and freedom of speech, and is not a permissible ground for restriction."
+      }
+    ]
+  }
+]
