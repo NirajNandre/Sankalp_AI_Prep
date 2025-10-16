@@ -5,8 +5,75 @@ import 'package:sankalp/views/Components/ScheduledCard.dart';
 import 'package:sankalp/views/Screens/AiDiscussionPage.dart';
 import 'package:sankalp/views/Screens/AiMockPage.dart';
 import 'package:sankalp/views/Screens/MainScreen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:uuid/uuid.dart';
 
-class InterviewPage extends StatelessWidget {
+class InterviewPage extends StatefulWidget {
+
+  @override
+  State<InterviewPage> createState() => _InterviewPageState();
+}
+
+class _InterviewPageState extends State<InterviewPage> {
+  bool _isLoading = false;
+
+  final String _baseUrl = "http://10.0.2.2:8000";
+
+  // Function to start the AI Interview
+  Future<void> _startAiInterview() async {
+    setState(() => _isLoading = true);
+
+    final userId = const Uuid().v4();
+
+    try {
+      // The "headers" parameter has been removed from this GET request
+      final response = await http.get(
+        Uri.parse("$_baseUrl/interview/greeting/$userId"),
+      ).timeout(const Duration(seconds: 15));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AiInterviewPage(
+              greeting: data['greeting'],
+              sessionId: data['session_id'],
+              userId: userId,
+            ),
+          ),
+        );
+      } else {
+        _showErrorDialog("Failed to start interview. Please try again.");
+      }
+    } catch (e) {
+      _showErrorDialog("Could not connect to the server. Please check your connection.");
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('An Error Occurred!', style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,11 +98,11 @@ class InterviewPage extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                        icon: Icon(Icons.chevron_left, size: 32),
+                        icon: const Icon(Icons.chevron_left, size: 32),
                         onPressed: () {
                           Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (context) => MainScreen()),
+                            MaterialPageRoute(builder: (context) => const MainScreen()),
                                 (route) => false,
                           );
                         },
@@ -55,17 +122,12 @@ class InterviewPage extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: InfoCard(
-                          onTap: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const AiInterviewPage()),
-                            );
-                          },
+                          onTap: _isLoading ? null : _startAiInterview,
                           color: AppColors.blueColor,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
+                               const Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text("AI Mock \nInterview", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 26, height: 1.12)),
@@ -73,14 +135,14 @@ class InterviewPage extends StatelessWidget {
                                   Icon(Icons.auto_awesome, color: Colors.blue, size: 28),
                                 ],
                               ),
-                              SizedBox(height: 10),
-                              Text("Start audio \nsession", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, height: 1.12)),
+                              const SizedBox(height: 10),
+                              const Text("Start audio \nsession", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, height: 1.12)),
                               SizedBox(height: ScreenSize.getHeight(context)*0.112),
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       // Column 2: GD Simulator and Interview History stacked
                       Expanded(
                         flex: 1,
@@ -93,11 +155,11 @@ class InterviewPage extends StatelessWidget {
                                   MaterialPageRoute(builder: (context) => const AiDiscussionPage()),
                                 );
                               },
-                              color: Color(0xFFE2E2FF),
+                              color: const Color(0xFFE2E2FF),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
+                                  const Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text("GD \nSimulator", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 26, height: 1.12)),
@@ -105,14 +167,14 @@ class InterviewPage extends StatelessWidget {
                                       Icon(Icons.auto_awesome, color: Colors.purple, size: 24),
                                     ],
                                   ),
-                                  SizedBox(height: 5),
-                                  Text("Generate topic &\ndiscuss", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, height: 1.12)),
+                                  const SizedBox(height: 5),
+                                  const Text("Generate topic &\ndiscuss", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, height: 1.12)),
                                   SizedBox(height: ScreenSize.getHeight(context)*0.02)
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10),
-                            InfoCard(
+                            const SizedBox(height: 10),
+                            const InfoCard(
                               color: Color(0xFFF8EBB1),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,7 +209,7 @@ class InterviewPage extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               "1-1 interview with \nmentor",
                               style: TextStyle(
                                 fontWeight: FontWeight.w800,
@@ -155,8 +217,8 @@ class InterviewPage extends StatelessWidget {
                                 height: 1.12,
                               ),
                             ),
-                            SizedBox(height: 7),
-                            Text(
+                            const SizedBox(height: 7),
+                            const Text(
                               "Schedule interview with mentor",
                               style: TextStyle(
                                 fontSize: 15,
@@ -165,11 +227,11 @@ class InterviewPage extends StatelessWidget {
                                 height: 1.12,
                               ),
                             ),
-                            SizedBox(height: 50),
+                            const SizedBox(height: 50),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
+                                const Text(
                                   "Claim daily xp",
                                   style: TextStyle(
                                     fontSize: 13,
@@ -182,11 +244,11 @@ class InterviewPage extends StatelessWidget {
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(11),
                                   ),
-                                  padding: EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                                  padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                                   child: Row(
                                     children: [
-                                      Text("+20", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                                      SizedBox(width: 2),
+                                      const Text("+20", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                                      const SizedBox(width: 2),
                                       Icon(Icons.flash_on, color: Colors.yellow[700], size: 15),
                                     ],
                                   ),
@@ -201,7 +263,7 @@ class InterviewPage extends StatelessWidget {
                           child: Container(
                             width: 8,
                             height: 8,
-                            decoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                            decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
                           ),
                         ),
                       ],
