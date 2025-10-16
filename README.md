@@ -1,4 +1,4 @@
-#Sankalp- A Competitve Exam Preparation Platform
+# Sankalp- A Competitve Exam Preparation Platform
 
 ## About
 
