@@ -18,6 +18,33 @@ class InterviewResponse(BaseModel):
     status: str
     session_id: str = None
 
+@app.get("/interview/greeting/{user_id}")
+async def get_greeting(user_id: str):
+    """
+    Get an initial greeting to start the interview session.
+    
+    Args:
+        user_id: User identifier
+        
+    Returns:
+        Greeting message with session_id
+    """
+    if not user_id or not user_id.strip():
+        raise HTTPException(status_code=400, detail="user_id cannot be empty")
+    
+    # Initialize session and get greeting
+    result = await handle_interview_chat("", user_id)
+    
+    if result.get("status") == "error":
+        raise HTTPException(status_code=500, detail=result.get("error"))
+    
+    return {
+        "greeting": result.get("response"),
+        "session_id": result.get("session_id"),
+        "user_id": user_id
+    }
+
+
 
 @app.post("/interview/chat", response_model=InterviewResponse)
 async def interview_chat(req: InterviewRequest):

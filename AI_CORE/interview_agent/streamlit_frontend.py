@@ -1,308 +1,327 @@
 import streamlit as st
 import requests
 from datetime import datetime
-import time
+import json
 
-API_URL = "http://localhost:8000"
+# Configuration
+API_BASE_URL = "http://localhost:8000"
 
+# Page configuration
 st.set_page_config(
-    page_title="Multi-Agent Discussion", 
-    layout="wide", 
-    initial_sidebar_state="expanded",
-    page_icon="🤖"
+    page_title="Interview Agent",
+    page_icon="💼",
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# Custom CSS
+# Custom CSS for better styling
 st.markdown("""
-    <style>
-    .user-message { 
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 15px 20px; 
-        border-radius: 15px 15px 5px 15px; 
-        margin: 10px 0; 
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        max-width: 80%;
-        margin-left: auto;
-    }
-    .member-a { 
-        background-color: #F3E5F5; 
-        padding: 15px 20px; 
-        border-radius: 15px 15px 15px 5px; 
-        margin: 10px 0; 
-        border-left: 4px solid #9C27B0; 
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        max-width: 80%;
-    }
-    .member-b { 
-        background-color: #FFF3E0; 
-        padding: 15px 20px; 
-        border-radius: 15px 15px 15px 5px; 
-        margin: 10px 0; 
-        border-left: 4px solid #FF9800; 
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        max-width: 80%;
-    }
-    .agent-name {
+<style>
+    .main-header {
+        font-size: 2.5rem;
         font-weight: bold;
-        font-size: 0.9em;
-        margin-bottom: 5px;
-        opacity: 0.8;
+        color: #1f77b4;
+        text-align: center;
+        margin-bottom: 2rem;
     }
-    .stTextArea textarea {
-        border-radius: 10px;
+    .chat-message {
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
     }
-    </style>
+    .user-message {
+        background-color: #e3f2fd;
+        margin-left: 20%;
+    }
+    .agent-message {
+        background-color: #f5f5f5;
+        margin-right: 20%;
+    }
+    .timestamp {
+        font-size: 0.75rem;
+        color: #666;
+        margin-top: 0.25rem;
+    }
+    .sidebar-section {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    .status-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.875rem;
+        font-weight: bold;
+    }
+    .status-active {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    .status-inactive {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+</style>
 """, unsafe_allow_html=True)
 
-# Header
-st.title("🤖 Multi-Agent Discussion Forum")
-st.markdown("**Watch AI agents engage in dynamic discussions - supporting or challenging each other's viewpoints**")
 
-# Sidebar
-with st.sidebar:
-    st.header("⚙️ Configuration")
-    
-    # User ID
-    if "user_id" not in st.session_state:
-        st.session_state.user_id = f"user_{datetime.now().strftime('%H%M%S')}"
-    
-    user_id = st.text_input(
-        "User ID", 
-        value=st.session_state.user_id, 
-        help="Your unique session identifier"
-    )
-    st.session_state.user_id = user_id
-    
-    st.divider()
-    
-    # Clear history
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("🗑️ Clear", use_container_width=True):
-            try:
-                response = requests.post(f"{API_URL}/clear/{user_id}", timeout=5)
-                if response.status_code == 200:
-                    st.session_state.messages = []
-                    st.session_state.session_state = {}
-                    st.success("Cleared!")
-                    time.sleep(0.5)
-                    st.rerun()
-            except:
-                st.error("Failed to clear")
-    
-    with col2:
-        if st.button("🔄 Refresh", use_container_width=True):
-            try:
-                response = requests.get(f"{API_URL}/history/{user_id}", timeout=5)
-                if response.status_code == 200:
-                    data = response.json()
-                    st.session_state.messages = data.get("conversation_history", [])
-                    st.success("Refreshed!")
-                    time.sleep(0.5)
-                    st.rerun()
-            except:
-                st.error("Failed to refresh")
-    
-    st.divider()
-    
-    # Stats
-    st.markdown("### 📊 Session Stats")
-    if "session_state" in st.session_state and st.session_state.session_state:
-        col1, col2 = st.columns(2)
-        with col1:
-            st.metric("🔄 Turns", st.session_state.session_state.get("turn", 0))
-        with col2:
-            st.metric("💬 Messages", st.session_state.session_state.get("messages", 0))
-    else:
-        st.info("Start chatting to see stats")
-    
-    st.divider()
-    
-    # Agent info
-    with st.expander("👥 Meet the Agents"):
-        st.markdown("""
-        **🟣 Member A**  
-        Provides initial perspectives and reasoning
-        
-        **🟠 Member B**  
-        Responds by supporting, building upon, or challenging Member A's points
-        """)
-    
-    # Instructions
-    with st.expander("ℹ️ How to Use"):
-        st.markdown("""
-        1. Type your question in the text box below
-        2. Click **Send** to start the discussion
-        3. Watch both agents respond
-        4. Ask follow-up questions to continue
-        5. Agents remember context from previous messages
-        """)
-    
-    # Connection status
-    st.divider()
+def init_session_state():
+    """Initialize session state variables."""
+    if 'messages' not in st.session_state:
+        st.session_state.messages = []
+    if 'user_id' not in st.session_state:
+        st.session_state.user_id = f"user_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+    if 'session_id' not in st.session_state:
+        st.session_state.session_id = None
+    if 'api_healthy' not in st.session_state:
+        st.session_state.api_healthy = check_api_health()
+
+
+def check_api_health():
+    """Check if the API is running."""
     try:
-        response = requests.get(f"{API_URL}/history/{user_id}", timeout=2)
-        if response.status_code == 200:
-            st.success("🟢 Backend Connected")
-        else:
-            st.warning("🟡 Backend Issues")
+        response = requests.get(f"{API_BASE_URL}/health", timeout=2)
+        return response.status_code == 200
     except:
-        st.error("🔴 Backend Offline")
-        st.caption("Run: `uvicorn main:app --reload`")
+        return False
 
-# Initialize session state
-if "messages" not in st.session_state:
-    st.session_state.messages = []
 
-if "session_state" not in st.session_state:
-    st.session_state.session_state = {}
+def send_message(user_input: str, user_id: str):
+    """Send a message to the interview agent API."""
+    try:
+        response = requests.post(
+            f"{API_BASE_URL}/interview/chat",
+            json={"user_input": user_input, "user_id": user_id},
+            timeout=30
+        )
+        
+        if response.status_code == 200:
+            return response.json()
+        else:
+            return {
+                "status": "error",
+                "error": f"API returned status code {response.status_code}: {response.text}"
+            }
+    except requests.exceptions.ConnectionError:
+        return {
+            "status": "error",
+            "error": "Cannot connect to API. Make sure the FastAPI server is running."
+        }
+    except requests.exceptions.Timeout:
+        return {
+            "status": "error",
+            "error": "Request timed out. The API took too long to respond."
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": f"An error occurred: {str(e)}"
+        }
 
-# Chat display area
-st.subheader("💭 Discussion Thread")
 
-chat_container = st.container()
+def get_session_info(user_id: str):
+    """Get session information for a user."""
+    try:
+        response = requests.get(f"{API_BASE_URL}/interview/session/{user_id}", timeout=5)
+        if response.status_code == 200:
+            return response.json()
+        return None
+    except:
+        return None
 
-with chat_container:
-    if len(st.session_state.messages) == 0:
-        st.info("👋 Welcome! Ask a question below to start the discussion between our AI agents.")
-    else:
-        for idx, msg in enumerate(st.session_state.messages):
-            if msg["role"] == "user":
-                st.markdown(f"""
-                <div class='user-message'>
-                    <div class='agent-name'>👤 You</div>
-                    {msg['content']}
-                </div>
-                """, unsafe_allow_html=True)
-            elif msg["role"] == "member_a":
-                st.markdown(f"""
-                <div class='member-a'>
-                    <div class='agent-name'>🟣 Member A</div>
-                    {msg['content']}
-                </div>
-                """, unsafe_allow_html=True)
-            elif msg["role"] == "member_b":
-                st.markdown(f"""
-                <div class='member-b'>
-                    <div class='agent-name'>🟠 Member B</div>
-                    {msg['content']}
-                </div>
-                """, unsafe_allow_html=True)
 
-# Input section
-st.divider()
+def clear_session(user_id: str):
+    """Clear the session for a user."""
+    try:
+        response = requests.delete(f"{API_BASE_URL}/interview/session/{user_id}", timeout=5)
+        return response.status_code == 200
+    except:
+        return False
 
-# Create columns for better layout
-input_col, button_col = st.columns([6, 1])
 
-with input_col:
-    user_input = st.text_area(
-        "Your Question",
-        placeholder="Ask anything... (e.g., 'What are the pros and cons of artificial intelligence?')",
-        height=100,
-        key="user_input_area",
-        label_visibility="collapsed"
-    )
+def display_message(role: str, content: str, timestamp: str):
+    """Display a chat message."""
+    css_class = "user-message" if role == "user" else "agent-message"
+    role_emoji = "👤" if role == "user" else "🤖"
+    role_label = "You" if role == "user" else "Interview Agent"
+    
+    st.markdown(f"""
+    <div class="chat-message {css_class}">
+        <div><strong>{role_emoji} {role_label}</strong></div>
+        <div>{content}</div>
+        <div class="timestamp">{timestamp}</div>
+    </div>
+    """, unsafe_allow_html=True)
 
-with button_col:
-    st.write("")
-    st.write("")
-    send_button = st.button("📤 Send", use_container_width=True, type="primary")
 
-# Handle send
-if send_button:
-    if not user_input or not user_input.strip():
-        st.warning("⚠️ Please enter a question first")
-    else:
-        # Show loading state
-        with st.spinner("🤔 Agents are thinking..."):
-            progress_bar = st.progress(0)
-            status_text = st.empty()
-            
-            try:
-                payload = {
-                    "user_id": user_id,
-                    "user_input": user_input.strip()
-                }
-                
-                status_text.text("📤 Sending your question...")
-                progress_bar.progress(20)
-                
-                response = requests.post(f"{API_URL}/ask", json=payload, timeout=120)
-                progress_bar.progress(50)
-                
-                response.raise_for_status()
-                data = response.json()
-                
-                status_text.text("📝 Processing responses...")
-                progress_bar.progress(80)
-                
-                if data.get("success"):
-                    # Update state
-                    st.session_state.messages = data.get("conversation_history", [])
-                    st.session_state.session_state = data.get("session_state", {})
-                    
-                    progress_bar.progress(100)
-                    status_text.text("✅ Discussion complete!")
-                    
-                    time.sleep(0.5)
-                    progress_bar.empty()
-                    status_text.empty()
-                    
+def main():
+    init_session_state()
+    
+    # Sidebar
+    with st.sidebar:
+        st.markdown('<p class="main-header">⚙️ Settings</p>', unsafe_allow_html=True)
+        
+        # API Status
+        st.markdown('<div class="sidebar-section">', unsafe_allow_html=True)
+        st.subheader("API Status")
+        if st.button("🔄 Check Connection", use_container_width=True):
+            st.session_state.api_healthy = check_api_health()
+        
+        status_class = "status-active" if st.session_state.api_healthy else "status-inactive"
+        status_text = "Connected ✓" if st.session_state.api_healthy else "Disconnected ✗"
+        st.markdown(f'<span class="status-badge {status_class}">{status_text}</span>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # User Information
+        st.markdown('<div class="sidebar-section">', unsafe_allow_html=True)
+        st.subheader("User Information")
+        
+        # Allow user to set custom user_id
+        custom_user_id = st.text_input(
+            "User ID",
+            value=st.session_state.user_id,
+            help="Enter a unique identifier for this session"
+        )
+        
+        if custom_user_id != st.session_state.user_id:
+            st.session_state.user_id = custom_user_id
+            st.session_state.messages = []
+            st.session_state.session_id = None
+            st.rerun()
+        
+        if st.session_state.session_id:
+            st.info(f"**Session ID:** {st.session_state.session_id[:16]}...")
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # Session Management
+        st.markdown('<div class="sidebar-section">', unsafe_allow_html=True)
+        st.subheader("Session Management")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            if st.button("📊 View Session", use_container_width=True):
+                session_info = get_session_info(st.session_state.user_id)
+                if session_info:
+                    st.json(session_info)
+                else:
+                    st.error("No session found")
+        
+        with col2:
+            if st.button("🗑️ Clear Session", use_container_width=True):
+                if clear_session(st.session_state.user_id):
+                    st.session_state.messages = []
+                    st.session_state.session_id = None
+                    st.success("Session cleared!")
                     st.rerun()
                 else:
-                    progress_bar.empty()
-                    status_text.empty()
-                    st.error(f"❌ Error: {data.get('error', 'Unknown error occurred')}")
-                    
-            except requests.exceptions.ConnectionError:
-                progress_bar.empty()
-                status_text.empty()
-                st.error("❌ Cannot connect to backend server")
-                st.info("Make sure FastAPI is running: `uvicorn main:app --reload`")
-                
-            except requests.exceptions.Timeout:
-                progress_bar.empty()
-                status_text.empty()
-                st.error("⏱️ Request timed out - agents took too long to respond")
-                
-            except requests.exceptions.RequestException as e:
-                progress_bar.empty()
-                status_text.empty()
-                st.error(f"❌ Network error: {str(e)}")
-                
-            except Exception as e:
-                progress_bar.empty()
-                status_text.empty()
-                st.error(f"❌ Unexpected error: {str(e)}")
-
-# Quick examples
-with st.expander("💡 Example Questions"):
-    col1, col2 = st.columns(2)
+                    st.error("Failed to clear session")
+        
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # API Configuration
+        st.markdown('<div class="sidebar-section">', unsafe_allow_html=True)
+        st.subheader("API Configuration")
+        st.text_input("API Base URL", value=API_BASE_URL, disabled=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+        # Statistics
+        st.markdown('<div class="sidebar-section">', unsafe_allow_html=True)
+        st.subheader("Statistics")
+        st.metric("Total Messages", len(st.session_state.messages))
+        user_msgs = len([m for m in st.session_state.messages if m["role"] == "user"])
+        agent_msgs = len([m for m in st.session_state.messages if m["role"] == "agent"])
+        st.metric("Your Messages", user_msgs)
+        st.metric("Agent Responses", agent_msgs)
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+    # Main content
+    st.markdown('<p class="main-header">💼 Interview Agent</p>', unsafe_allow_html=True)
+    
+    # Warning if API is not healthy
+    if not st.session_state.api_healthy:
+        st.error("⚠️ Cannot connect to the API. Please make sure the FastAPI server is running on http://localhost:8000")
+        st.code("python main.py", language="bash")
+    
+    # Chat container
+    chat_container = st.container()
+    
+    with chat_container:
+        # Display chat history
+        if not st.session_state.messages:
+            st.info("👋 Welcome! Start your interview by typing a message below.")
+        else:
+            for message in st.session_state.messages:
+                display_message(
+                    message["role"],
+                    message["content"],
+                    message["timestamp"]
+                )
+    
+    # Input area
+    st.markdown("---")
+    
+    col1, col2 = st.columns([5, 1])
     
     with col1:
-        if st.button("What are the benefits of renewable energy?", use_container_width=True):
-            st.session_state.user_input_area = "What are the benefits of renewable energy?"
-            st.rerun()
-        
-        if st.button("Should AI be regulated?", use_container_width=True):
-            st.session_state.user_input_area = "Should AI be regulated?"
-            st.rerun()
+        user_input = st.text_input(
+            "Your message:",
+            key="user_input",
+            placeholder="Type your message here...",
+            label_visibility="collapsed"
+        )
     
     with col2:
-        if st.button("Is remote work better than office work?", use_container_width=True):
-            st.session_state.user_input_area = "Is remote work better than office work?"
+        send_button = st.button("📤 Send", use_container_width=True, type="primary")
+    
+    # Handle sending message
+    if send_button and user_input:
+        if not st.session_state.api_healthy:
+            st.error("Cannot send message. API is not available.")
+        else:
+            # Add user message
+            timestamp = datetime.now().strftime("%H:%M:%S")
+            st.session_state.messages.append({
+                "role": "user",
+                "content": user_input,
+                "timestamp": timestamp
+            })
+            
+            # Send to API
+            with st.spinner("🤔 Interview Agent is thinking..."):
+                result = send_message(user_input, st.session_state.user_id)
+            
+            if result.get("status") == "error":
+                st.error(f"Error: {result.get('error')}")
+            else:
+                # Add agent response
+                agent_timestamp = datetime.now().strftime("%H:%M:%S")
+                st.session_state.messages.append({
+                    "role": "agent",
+                    "content": result.get("response", "No response received"),
+                    "timestamp": agent_timestamp
+                })
+                
+                # Update session_id
+                if result.get("session_id"):
+                    st.session_state.session_id = result.get("session_id")
+            
+            # Rerun to clear input and show new messages
             st.rerun()
-        
-        if st.button("What's the future of space exploration?", use_container_width=True):
-            st.session_state.user_input_area = "What's the future of space exploration?"
-            st.rerun()
+    
+    # Tips section
+    with st.expander("💡 Tips for using the Interview Agent"):
+        st.markdown("""
+        - **Be clear and specific** in your responses
+        - **Take your time** to think through your answers
+        - **Ask for clarification** if you don't understand a question
+        - **Use the sidebar** to view session details or start fresh
+        - **Check the API status** if messages aren't sending
+        """)
 
-# Footer
-st.divider()
-st.markdown("""
-<div style='text-align: center; color: #666; padding: 10px;'>
-    <small>🤖 Powered by Google ADK & FastAPI | Multi-Agent Discussion System</small>
-</div>
-""", unsafe_allow_html=True)
+
+if __name__ == "__main__":
+    main()
