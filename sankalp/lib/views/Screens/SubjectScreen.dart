@@ -240,8 +240,8 @@ class _SubjectPageState extends State<SubjectPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const TopicPage(
-                                    title: "Fundamental Rights",
+                                  builder: (context) => TopicPage(
+                                    title: topics[i].name,
                                     aboutText: "The fundamental rights are six categories of basic freedoms guaranteed to Indian citizens by the Constitution, ensuring their development and dignity. These include the Right to Equality, Right to Freedom, Right against Exploitation, Right to Freedom of Religion, Cultural and Educational Rights, and the Right to Constitutional Remedies. These rights are enforceable in the Supreme Court and High Courts, which act as guardians of these fundamental liberties.",
                                     youtubeUrl: "https://www.youtube.com/watch?v=zbAPxvTuDUg",
                                   ),

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sankalp/utils/constants.dart';
 import 'package:sankalp/views/Screens/PdfView.dart';
 import 'package:sankalp/views/Screens/QuizPage.dart';
+import 'package:sankalp/views/Screens/RevisionNotesPage.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class TopicPage extends StatefulWidget {
   final String title;
@@ -23,6 +27,9 @@ class TopicPage extends StatefulWidget {
 class _TopicPageState extends State<TopicPage> {
   late YoutubePlayerController _controller;
   bool aboutExpanded = false;
+  bool _isGeneratingNotes = false;
+
+
 
   @override
   void initState() {
@@ -74,6 +81,86 @@ class _TopicPageState extends State<TopicPage> {
       ],
     );
   }
+
+  Future<void> _generateAiNotes() async {
+    setState(() {
+      _isGeneratingNotes = true;
+    });
+
+    // Show a loading dialog so the user knows something is happening
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircularProgressIndicator(
+              color: AppColors.blueColor,
+            ),
+          ],
+        ),
+      ),
+    );
+
+    try {
+      // 1. Set up the request to your new endpoint
+      // Use port 8001 for the notes generator
+      final url = Uri.parse('http://10.0.2.2:8001/generate-notes-from-pdf/');
+      var request = http.MultipartRequest('POST', url);
+
+      // 2. Add the 'topic' as a form field
+      request.fields['topic'] = widget.title;
+
+      // 3. Load the PDF file from assets and add it to the request
+      final byteData = await rootBundle.load('assets/pdfs/fundamental-rights.pdf');
+      request.files.add(http.MultipartFile.fromBytes(
+        'file',
+        byteData.buffer.asUint8List(),
+        filename: 'fundamental-rights.pdf', // The filename is required
+      ));
+
+      // 4. Send the request and wait for the response
+      final streamedResponse = await request.send().timeout(const Duration(seconds: 90));
+      final response = await http.Response.fromStream(streamedResponse);
+
+      // Close the loading dialog
+      Navigator.of(context, rootNavigator: true).pop();
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+
+        // On success, navigate to the RevisionNotesPage with the data
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => RevisionNotesPage(
+              topic: data['topic'],
+              notes: data['notes'],
+              date: data['date'],
+            ),
+          ),
+        );
+      } else {
+        // If the server returns an error, show it in a SnackBar
+        final errorData = json.decode(response.body);
+        throw Exception('Failed to generate notes: ${errorData['detail']}');
+      }
+    } catch (e) {
+      // Close the loading dialog if it's still open
+      if(Navigator.of(context, rootNavigator: true).canPop()) {
+        Navigator.of(context, rootNavigator: true).pop();
+      }
+      // Show any other errors (like network issues)
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('An error occurred: $e')));
+    } finally {
+      // Re-enable the button
+      setState(() {
+        _isGeneratingNotes = false;
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -323,7 +410,7 @@ class _TopicPageState extends State<TopicPage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => const QuizPage()),
+                          MaterialPageRoute(builder: (_) => QuizPage(topic: widget.title)),
                         );
                       },
                       child: const Column(
@@ -366,14 +453,10 @@ class _TopicPageState extends State<TopicPage> {
                     ),
                   ),
                   icon: Image.asset("assets/images/AI_logo.png", height: 22),
-                  onPressed: () {},
-                  label: const Text(
-                    "Get AI Generated Notes",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
+                  onPressed: _isGeneratingNotes ? null : _generateAiNotes,
+                  label: _isGeneratingNotes
+                      ? const Text("Generating...", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18))
+                      : const Text("Get AI Generated Notes", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                 ),
                 const SizedBox(height: 65),
               ],

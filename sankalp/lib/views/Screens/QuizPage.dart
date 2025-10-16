@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:sankalp/utils/constants.dart';
+import 'package:http/http.dart' as http;
+
 
 class QuizPage extends StatefulWidget {
-  const QuizPage({super.key});
+  final String topic;
+  const QuizPage({super.key, required this.topic});
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -20,6 +23,7 @@ class _QuizPageState extends State<QuizPage> {
   int? _selectedOptionIndex;
   bool _submitted = false;
   bool _isLoading = true;
+  String? _error;
 
   @override
   void initState() {
@@ -28,13 +32,37 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   Future<void> _loadQuestions() async {
-    final jsonStr = await rootBundle.loadString("assets/questions.json");
-    final List<dynamic> jsonData = json.decode(jsonStr);
-    setState(() {
-      _questions = jsonData.map((q) => Question.fromJson(q)).toList();
-      _isLoading = false;
-    });
-    _startTimer();
+    // Use '10.0.2.2' for Android emulator or your computer's IP for a physical device.
+    const String baseUrl = 'http://10.0.2.2:8000';
+    final Uri url = Uri.parse('$baseUrl/generate-quiz/');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        // Use the topic passed to the widget
+        body: json.encode({'topic': widget.topic}),
+      ).timeout(const Duration(seconds: 45));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = json.decode(utf8.decode(response.bodyBytes));
+        setState(() {
+          _questions = jsonData.map((q) => Question.fromJson(q)).toList();
+          _isLoading = false;
+        });
+        _startTimer();
+      } else {
+        setState(() {
+          _error = 'Failed to load quiz. Server error: ${response.statusCode}';
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _error = 'Failed to connect to the server. Please check your network and make sure the backend is running.';
+        _isLoading = false;
+      });
+    }
   }
 
   void _startTimer() {
@@ -160,12 +188,32 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+      return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
+        body: const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 20),
+                Text("Generating your quiz...", style: TextStyle(fontSize: 16)),
+              ],
+            )),
       );
     }
+
+    if (_error != null) {
+      // UI to show when an error occurs
+      return Scaffold(
+        appBar: AppBar(title: const Text("Error")),
+        body: Center(child: Padding(padding: const EdgeInsets.all(16.0), child: Text(_error!, textAlign: TextAlign.center, style: const TextStyle(color: Colors.red, fontSize: 16)))),
+      );
+    }
+
 
     final question = _questions[_currentQuestionIndex];
     final total = _questions.length;
@@ -206,9 +254,9 @@ class _QuizPageState extends State<QuizPage> {
                   ],
                 ),
                 const SizedBox(height: 30),
-                const Center(
+                 Center(
                   child: Text(
-                    "Topic : Fundamental Rights",
+                    "Topic : ${widget.topic}",
                     style: TextStyle(
                         fontWeight: FontWeight.w600, fontSize: 18, color: Colors.black87),
                   ),

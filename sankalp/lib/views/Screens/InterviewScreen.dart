@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sankalp/utils/constants.dart';
 import 'package:sankalp/views/Components/InfoCard.dart';
 import 'package:sankalp/views/Components/ScheduledCard.dart';
+import 'package:sankalp/views/Screens/AiDiscussionPage.dart';
+import 'package:sankalp/views/Screens/AiMockPage.dart';
 import 'package:sankalp/views/Screens/MainScreen.dart';
 
 class InterviewPage extends StatelessWidget {
@@ -53,6 +55,12 @@ class InterviewPage extends StatelessWidget {
                       Expanded(
                         flex: 1,
                         child: InfoCard(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const AiInterviewPage()),
+                            );
+                          },
                           color: AppColors.blueColor,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,6 +87,12 @@ class InterviewPage extends StatelessWidget {
                         child: Column(
                           children: [
                             InfoCard(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const AiDiscussionPage()),
+                                );
+                              },
                               color: Color(0xFFE2E2FF),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
