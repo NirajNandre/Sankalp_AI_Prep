@@ -14,7 +14,7 @@ from quiz_generator.main import app as quiz_generator_app
 app = FastAPI(title="Sankalp AI Core Main Router")
 
 # Add CORS middleware to allow all origins
-# This should be placed before mounting the sub-applications
+# This is necessary for your web frontend to communicate with the backend.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Allows all origins
@@ -23,17 +23,17 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-# Mount each agent's application onto a specific URL path.
-# All requests to /interview-agent will be forwarded to interview_agent_app.
-app.mount("/interview-agent", interview_agent_app)
+# --- Mount each agent's application onto the correct URL path ---
 
-# All requests to /quiz-generator will be forwarded to quiz_generator_app.
-app.mount("/quiz-generator", quiz_generator_app)
+# Path from AiMockPage.dart
+app.mount("/interview", interview_agent_app)
 
-# All requests to /group-discussion will be forwarded to group_discussion_app.
+# Path from QuizPage.dart
+app.mount("/generate-quiz", quiz_generator_app)
+
 app.mount("/group-discussion", group_discussion_app)
 
-# All requests to /notes-generator will be forwarded to notes_generator_app.
+
 app.mount("/notes-generator", notes_generator_app)
 
 
