@@ -29,8 +29,6 @@ class _TopicPageState extends State<TopicPage> {
   bool aboutExpanded = false;
   bool _isGeneratingNotes = false;
 
-
-
   @override
   void initState() {
     super.initState();

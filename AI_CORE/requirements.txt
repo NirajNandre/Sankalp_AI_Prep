@@ -1,0 +1,33 @@
+# Web Framework
+fastapi
+uvicorn
+pydantic
+python-multipart
+python-dotenv
+
+# HTTP & Async
+requests
+httpx
+aiofiles
+
+# Vector Store & Search
+faiss-cpu
+
+# PDF Processing
+pypdf2
+
+# LangChain
+langchain
+langchain-core
+langchain-text-splitters
+
+# Google AI
+google-generativeai
+google-genai
+google-adk
+
+# Data Processing
+numpy
+
+# Utilities
+typing-extensions

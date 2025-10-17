@@ -33,7 +33,7 @@ class _QuizPageState extends State<QuizPage> {
 
   Future<void> _loadQuestions() async {
     // Use '10.0.2.2' for Android emulator or your computer's IP for a physical device.
-    const String baseUrl = 'http://10.0.2.2:8000';
+    const String baseUrl = 'http://10.0.2.2:8002';
     final Uri url = Uri.parse('$baseUrl/generate-quiz/');
 
     try {

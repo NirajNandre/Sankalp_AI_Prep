@@ -102,4 +102,4 @@ Generate 10 multiple-choice quiz questions on the topic: **{request.topic}**
 if __name__ == "__main__":
     import uvicorn
     # Host on 0.0.0.0 to make it accessible on your local network
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8002)

@@ -72,6 +72,8 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
           _userTranscript = "";
         });
         _speech.listen(
+          listenFor: const Duration(minutes: 2),
+          pauseFor: const Duration(seconds: 5),
           onResult: (result) => setState(() {
             _userTranscript = result.recognizedWords;
           }),
