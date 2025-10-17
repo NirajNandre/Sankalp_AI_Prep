@@ -1,0 +1,21 @@
+# Ignore Python's auto-generated files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environment folders
+.Python
+env/
+venv/
+.venv/
+
+# Ignore sensitive environment files
+.env
+
+# Ignore Git-related files
+.git
+.gitignore
+
+# Ignore GitHub-specific files
+.github/

@@ -12,7 +12,6 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:uuid/uuid.dart';
 
 class InterviewPage extends StatefulWidget {
-
   @override
   State<InterviewPage> createState() => _InterviewPageState();
 }
@@ -20,7 +19,8 @@ class InterviewPage extends StatefulWidget {
 class _InterviewPageState extends State<InterviewPage> {
   bool _isLoading = false;
 
-  final String _baseUrl = "http://10.0.2.2:8000";
+  final String _baseUrl =
+      "https://ai-core-backend-180048661835.us-central1.run.app";
 
   // Function to start the AI Interview
   Future<void> _startAiInterview() async {
@@ -30,9 +30,9 @@ class _InterviewPageState extends State<InterviewPage> {
 
     try {
       // The "headers" parameter has been removed from this GET request
-      final response = await http.get(
-        Uri.parse("$_baseUrl/interview/greeting/$userId"),
-      ).timeout(const Duration(seconds: 15));
+      final response = await http
+          .get(Uri.parse("$_baseUrl/interview/greeting/$userId"))
+          .timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -50,7 +50,9 @@ class _InterviewPageState extends State<InterviewPage> {
         _showErrorDialog("Failed to start interview. Please try again.");
       }
     } catch (e) {
-      _showErrorDialog("Could not connect to the server. Please check your connection.");
+      _showErrorDialog(
+        "Could not connect to the server. Please check your connection.",
+      );
     } finally {
       setState(() => _isLoading = false);
     }
@@ -60,7 +62,10 @@ class _InterviewPageState extends State<InterviewPage> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('An Error Occurred!', style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),),
+        title: const Text(
+          'An Error Occurred!',
+          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),
+        ),
         content: Text(message),
         actions: <Widget>[
           TextButton(
@@ -68,7 +73,7 @@ class _InterviewPageState extends State<InterviewPage> {
             onPressed: () {
               Navigator.of(ctx).pop();
             },
-          )
+          ),
         ],
       ),
     );
@@ -102,13 +107,21 @@ class _InterviewPageState extends State<InterviewPage> {
                         onPressed: () {
                           Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (context) => const MainScreen()),
-                                (route) => false,
+                            MaterialPageRoute(
+                              builder: (context) => const MainScreen(),
+                            ),
+                            (route) => false,
                           );
                         },
                       ),
                       const Spacer(),
-                      const Text("Interview", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
+                      const Text(
+                        "Interview",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 26,
+                        ),
+                      ),
                       const Spacer(),
                       Image.asset('assets/images/AI_logo.png', height: 24),
                     ],
@@ -127,17 +140,37 @@ class _InterviewPageState extends State<InterviewPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                               const Row(
+                              const Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("AI Mock \nInterview", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 26, height: 1.12)),
+                                  Text(
+                                    "AI Mock \nInterview",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 26,
+                                      height: 1.12,
+                                    ),
+                                  ),
                                   Spacer(),
-                                  Icon(Icons.auto_awesome, color: Colors.blue, size: 28),
+                                  Icon(
+                                    Icons.auto_awesome,
+                                    color: Colors.blue,
+                                    size: 28,
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              const Text("Start audio \nsession", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, height: 1.12)),
-                              SizedBox(height: ScreenSize.getHeight(context)*0.112),
+                              const Text(
+                                "Start audio \nsession",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.12,
+                                ),
+                              ),
+                              SizedBox(
+                                height: ScreenSize.getHeight(context) * 0.112,
+                              ),
                             ],
                           ),
                         ),
@@ -149,10 +182,13 @@ class _InterviewPageState extends State<InterviewPage> {
                         child: Column(
                           children: [
                             InfoCard(
-                              onTap: (){
+                              onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const AiDiscussionPage()),
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AiDiscussionPage(),
+                                  ),
                                 );
                               },
                               color: const Color(0xFFE2E2FF),
@@ -160,16 +196,38 @@ class _InterviewPageState extends State<InterviewPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text("GD \nSimulator", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 26, height: 1.12)),
+                                      Text(
+                                        "GD \nSimulator",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 26,
+                                          height: 1.12,
+                                        ),
+                                      ),
                                       Spacer(),
-                                      Icon(Icons.auto_awesome, color: Colors.purple, size: 24),
+                                      Icon(
+                                        Icons.auto_awesome,
+                                        color: Colors.purple,
+                                        size: 24,
+                                      ),
                                     ],
                                   ),
                                   const SizedBox(height: 5),
-                                  const Text("Generate topic &\ndiscuss", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, height: 1.12)),
-                                  SizedBox(height: ScreenSize.getHeight(context)*0.02)
+                                  const Text(
+                                    "Generate topic &\ndiscuss",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.12,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height:
+                                        ScreenSize.getHeight(context) * 0.02,
+                                  ),
                                 ],
                               ),
                             ),
@@ -180,15 +238,31 @@ class _InterviewPageState extends State<InterviewPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text("Interview & GD \nHistory", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18, height: 1.12)),
+                                      Text(
+                                        "Interview & GD \nHistory",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 18,
+                                          height: 1.12,
+                                        ),
+                                      ),
                                       Icon(Icons.chevron_right, size: 24),
                                     ],
                                   ),
                                   SizedBox(height: 5),
-                                  Text("Review past sessions", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, height: 1.12)),
+                                  Text(
+                                    "Review past sessions",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.12,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -200,7 +274,10 @@ class _InterviewPageState extends State<InterviewPage> {
                   const SizedBox(height: 10),
 
                   // Live Practice Arena
-                  const Text("Live Practice Arena", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20)),
+                  const Text(
+                    "Live Practice Arena",
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+                  ),
                   const SizedBox(height: 10),
                   InfoCard(
                     color: const Color(0xFFD3EBFC),
@@ -244,12 +321,25 @@ class _InterviewPageState extends State<InterviewPage> {
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(11),
                                   ),
-                                  padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 9,
+                                    vertical: 4,
+                                  ),
                                   child: Row(
                                     children: [
-                                      const Text("+20", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                                      const Text(
+                                        "+20",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                                      ),
                                       const SizedBox(width: 2),
-                                      Icon(Icons.flash_on, color: Colors.yellow[700], size: 15),
+                                      Icon(
+                                        Icons.flash_on,
+                                        color: Colors.yellow[700],
+                                        size: 15,
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -263,14 +353,20 @@ class _InterviewPageState extends State<InterviewPage> {
                           child: Container(
                             width: 8,
                             height: 8,
-                            decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                            decoration: const BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Text("Scheduled Session", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20)),
+                  const Text(
+                    "Scheduled Session",
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+                  ),
                   const SizedBox(height: 10),
                   const ScheduledSessionCard(
                     title: "Interview of Polity",

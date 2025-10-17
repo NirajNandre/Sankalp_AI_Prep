@@ -36,10 +36,7 @@ class _TopicPageState extends State<TopicPage> {
     final videoId = YoutubePlayer.convertUrlToId(widget.youtubeUrl);
     _controller = YoutubePlayerController(
       initialVideoId: videoId ?? "",
-      flags: const YoutubePlayerFlags(
-        autoPlay: false,
-        mute: false,
-      ),
+      flags: const YoutubePlayerFlags(autoPlay: false, mute: false),
     );
   }
 
@@ -59,7 +56,9 @@ class _TopicPageState extends State<TopicPage> {
         Text(
           text,
           maxLines: maxLines,
-          overflow: aboutExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+          overflow: aboutExpanded
+              ? TextOverflow.visible
+              : TextOverflow.ellipsis,
           style: const TextStyle(color: Colors.black87, fontSize: 14),
         ),
         if (showToggle)
@@ -92,11 +91,7 @@ class _TopicPageState extends State<TopicPage> {
       builder: (context) => const Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
-            CircularProgressIndicator(
-              color: AppColors.blueColor,
-            ),
-          ],
+          children: [CircularProgressIndicator(color: AppColors.blueColor)],
         ),
       ),
     );
@@ -104,29 +99,39 @@ class _TopicPageState extends State<TopicPage> {
     try {
       // 1. Set up the request to your new endpoint
       // Use port 8001 for the notes generator
-      final url = Uri.parse('http://10.0.2.2:8001/generate-notes-from-pdf/');
+      final url = Uri.parse(
+        'https://ai-core-backend-180048661835.us-central1.run.app/generate-notes-from-pdf/',
+      );
       var request = http.MultipartRequest('POST', url);
 
       // 2. Add the 'topic' as a form field
       request.fields['topic'] = widget.title;
 
       // 3. Load the PDF file from assets and add it to the request
-      final byteData = await rootBundle.load('assets/pdfs/fundamental-rights.pdf');
-      request.files.add(http.MultipartFile.fromBytes(
-        'file',
-        byteData.buffer.asUint8List(),
-        filename: 'fundamental-rights.pdf', // The filename is required
-      ));
+      final byteData = await rootBundle.load(
+        'assets/pdfs/fundamental-rights.pdf',
+      );
+      request.files.add(
+        http.MultipartFile.fromBytes(
+          'file',
+          byteData.buffer.asUint8List(),
+          filename: 'fundamental-rights.pdf', // The filename is required
+        ),
+      );
 
       // 4. Send the request and wait for the response
-      final streamedResponse = await request.send().timeout(const Duration(seconds: 90));
+      final streamedResponse = await request.send().timeout(
+        const Duration(seconds: 90),
+      );
       final response = await http.Response.fromStream(streamedResponse);
 
       // Close the loading dialog
       Navigator.of(context, rootNavigator: true).pop();
 
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+        final Map<String, dynamic> data = json.decode(
+          utf8.decode(response.bodyBytes),
+        );
 
         // On success, navigate to the RevisionNotesPage with the data
         Navigator.push(
@@ -146,11 +151,13 @@ class _TopicPageState extends State<TopicPage> {
       }
     } catch (e) {
       // Close the loading dialog if it's still open
-      if(Navigator.of(context, rootNavigator: true).canPop()) {
+      if (Navigator.of(context, rootNavigator: true).canPop()) {
         Navigator.of(context, rootNavigator: true).pop();
       }
       // Show any other errors (like network issues)
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('An error occurred: $e')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('An error occurred: $e')));
     } finally {
       // Re-enable the button
       setState(() {
@@ -158,7 +165,6 @@ class _TopicPageState extends State<TopicPage> {
       });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -177,11 +183,7 @@ class _TopicPageState extends State<TopicPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(
-              left: 16,
-              right: 16,
-              bottom: 0,
-            ),
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 0),
             child: ListView(
               children: [
                 Row(
@@ -191,11 +193,17 @@ class _TopicPageState extends State<TopicPage> {
                       icon: const Icon(Icons.chevron_left, size: 32),
                       onPressed: () => Navigator.pop(context),
                     ),
-                    const Text("Topic", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26)),
-                    SizedBox(width: ScreenSize.getWidth(context)*0.05),
+                    const Text(
+                      "Topic",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 26,
+                      ),
+                    ),
+                    SizedBox(width: ScreenSize.getWidth(context) * 0.05),
                   ],
                 ),
-                SizedBox(height: ScreenSize.getHeight(context)*0.05),
+                SizedBox(height: ScreenSize.getHeight(context) * 0.05),
                 // Youtube Player
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
@@ -213,14 +221,20 @@ class _TopicPageState extends State<TopicPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(widget.title,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 26,
-                                  color: Colors.black)),
+                          Text(
+                            widget.title,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 26,
+                              color: Colors.black,
+                            ),
+                          ),
                           const Text(
                             'Prof. Mohammad Pasha',
-                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ],
                       ),
@@ -242,15 +256,25 @@ class _TopicPageState extends State<TopicPage> {
                             ),
                           ),
                         ),
-                        const Text('remaining', style: TextStyle(fontSize: 11,fontWeight: FontWeight.w500)),
+                        const Text(
+                          'remaining',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ],
                     ),
                   ],
                 ),
-                SizedBox(height: ScreenSize.getHeight(context)*0.03),
+                SizedBox(height: ScreenSize.getHeight(context) * 0.03),
                 const Text(
                   'About',
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: Colors.black),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: Colors.black,
+                  ),
                 ),
                 aboutSection(widget.aboutText),
                 const SizedBox(height: 18),
@@ -269,7 +293,10 @@ class _TopicPageState extends State<TopicPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 12,
+                        ),
                         elevation: 1,
                         alignment: Alignment.centerLeft,
                       ),
@@ -320,7 +347,10 @@ class _TopicPageState extends State<TopicPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 12,
+                        ),
                         elevation: 1,
                         alignment: Alignment.centerLeft,
                       ),
@@ -357,7 +387,10 @@ class _TopicPageState extends State<TopicPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 12,
+                        ),
                         elevation: 1,
                         alignment: Alignment.centerLeft,
                       ),
@@ -365,7 +398,9 @@ class _TopicPageState extends State<TopicPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const PdfViewerPage(assetPath: "assets/pdfs/fundamental-rights.pdf"),
+                            builder: (_) => const PdfViewerPage(
+                              assetPath: "assets/pdfs/fundamental-rights.pdf",
+                            ),
                           ),
                         );
                       },
@@ -401,14 +436,19 @@ class _TopicPageState extends State<TopicPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 12,
+                        ),
                         elevation: 1,
                         alignment: Alignment.centerLeft,
                       ),
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => QuizPage(topic: widget.title)),
+                          MaterialPageRoute(
+                            builder: (_) => QuizPage(topic: widget.title),
+                          ),
                         );
                       },
                       child: const Column(
@@ -439,7 +479,7 @@ class _TopicPageState extends State<TopicPage> {
                     ),
                   ],
                 ),
-                SizedBox(height: ScreenSize.getHeight(context)*0.03),
+                SizedBox(height: ScreenSize.getHeight(context) * 0.03),
                 // AI Notes Button
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
@@ -453,8 +493,20 @@ class _TopicPageState extends State<TopicPage> {
                   icon: Image.asset("assets/images/AI_logo.png", height: 22),
                   onPressed: _isGeneratingNotes ? null : _generateAiNotes,
                   label: _isGeneratingNotes
-                      ? const Text("Generating...", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18))
-                      : const Text("Get AI Generated Notes", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                      ? const Text(
+                          "Generating...",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        )
+                      : const Text(
+                          "Get AI Generated Notes",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
                 ),
                 const SizedBox(height: 65),
               ],

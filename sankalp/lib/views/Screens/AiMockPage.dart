@@ -32,7 +32,8 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
   late String _userId;
   late String _sessionId;
 
-  final String _baseUrl = "http://10.0.2.2:8000";
+  final String _baseUrl =
+      "https://ai-core-backend-180048661835.us-central1.run.app";
 
   @override
   void initState() {
@@ -48,7 +49,9 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
     _flutterTts = FlutterTts();
 
     _flutterTts.setStartHandler(() => setState(() => _isAiSpeaking = true));
-    _flutterTts.setCompletionHandler(() => setState(() => _isAiSpeaking = false));
+    _flutterTts.setCompletionHandler(
+      () => setState(() => _isAiSpeaking = false),
+    );
     _flutterTts.setErrorHandler((msg) => setState(() => _isAiSpeaking = false));
 
     await _speech.initialize(
@@ -97,10 +100,7 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
       final response = await http.post(
         Uri.parse("$_baseUrl/interview/chat"),
         headers: {"Content-Type": "application/json"},
-        body: json.encode({
-          "user_input": text,
-          "user_id": _userId,
-        }),
+        body: json.encode({"user_input": text, "user_id": _userId}),
       );
 
       if (response.statusCode == 200) {
@@ -185,26 +185,35 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
                     height: ScreenSize.getHeight(context) * 0.35,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xFFB2F3FF),
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.black.withOpacity(0.13), width: 1.1),
+                      border: Border.all(
+                        color: Colors.black.withOpacity(0.13),
+                        width: 1.1,
+                      ),
                       boxShadow: _isAiSpeaking
                           ? [
-                        BoxShadow(
-                          color: Colors.cyan.withOpacity(0.7),
-                          blurRadius: 12,
-                          spreadRadius: 2,
-                        ),
-                      ]
+                              BoxShadow(
+                                color: Colors.cyan.withOpacity(0.7),
+                                blurRadius: 12,
+                                spreadRadius: 2,
+                              ),
+                            ]
                           : [],
                     ),
                     child: Stack(
                       children: [
                         Align(
                           alignment: Alignment.topRight,
-                          child: Image.asset('assets/images/AI_logo.png', height: 50),
+                          child: Image.asset(
+                            'assets/images/AI_logo.png',
+                            height: 50,
+                          ),
                         ),
                         const Align(
                           alignment: Alignment.topLeft,
@@ -239,19 +248,25 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
                     height: ScreenSize.getHeight(context) * 0.35,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0xFFFFF9C8),
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.black.withOpacity(0.13), width: 1.1),
+                      border: Border.all(
+                        color: Colors.black.withOpacity(0.13),
+                        width: 1.1,
+                      ),
                       boxShadow: _isListening
                           ? [
-                        BoxShadow(
-                          color: Colors.orange.withOpacity(0.7),
-                          blurRadius: 12,
-                          spreadRadius: 2,
-                        ),
-                      ]
+                              BoxShadow(
+                                color: Colors.orange.withOpacity(0.7),
+                                blurRadius: 12,
+                                spreadRadius: 2,
+                              ),
+                            ]
                           : [],
                     ),
                     // Using a Stack to position the microphone button
@@ -290,7 +305,9 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
                             icon: Icon(
                               _isListening ? Icons.mic : Icons.mic_off,
                               size: 44,
-                              color: _isListening ? Colors.deepOrange : const Color(0xFF2C2C2C),
+                              color: _isListening
+                                  ? Colors.deepOrange
+                                  : const Color(0xFF2C2C2C),
                             ),
                             onPressed: _listen,
                             tooltip: "Tap to speak",

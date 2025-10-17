@@ -5,7 +5,6 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:sankalp/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
-
 class QuizPage extends StatefulWidget {
   final String topic;
   const QuizPage({super.key, required this.topic});
@@ -33,19 +32,24 @@ class _QuizPageState extends State<QuizPage> {
 
   Future<void> _loadQuestions() async {
     // Use '10.0.2.2' for Android emulator or your computer's IP for a physical device.
-    const String baseUrl = 'http://10.0.2.2:8002';
+    const String baseUrl =
+        'https://ai-core-backend-180048661835.us-central1.run.app';
     final Uri url = Uri.parse('$baseUrl/generate-quiz/');
 
     try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        // Use the topic passed to the widget
-        body: json.encode({'topic': widget.topic}),
-      ).timeout(const Duration(seconds: 45));
+      final response = await http
+          .post(
+            url,
+            headers: {'Content-Type': 'application/json'},
+            // Use the topic passed to the widget
+            body: json.encode({'topic': widget.topic}),
+          )
+          .timeout(const Duration(seconds: 45));
 
       if (response.statusCode == 200) {
-        final List<dynamic> jsonData = json.decode(utf8.decode(response.bodyBytes));
+        final List<dynamic> jsonData = json.decode(
+          utf8.decode(response.bodyBytes),
+        );
         setState(() {
           _questions = jsonData.map((q) => Question.fromJson(q)).toList();
           _isLoading = false;
@@ -59,7 +63,8 @@ class _QuizPageState extends State<QuizPage> {
       }
     } catch (e) {
       setState(() {
-        _error = 'Failed to connect to the server. Please check your network and make sure the backend is running.';
+        _error =
+            'Failed to connect to the server. Please check your network and make sure the backend is running.';
         _isLoading = false;
       });
     }
@@ -114,7 +119,10 @@ class _QuizPageState extends State<QuizPage> {
             children: [
               const SizedBox(height: 10),
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 18),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 14,
+                  horizontal: 18,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.grey[100],
                   borderRadius: BorderRadius.circular(14),
@@ -145,7 +153,7 @@ class _QuizPageState extends State<QuizPage> {
               const Center(
                 child: Text(
                   "Thanks for completing the quiz!",
-                  style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                 ),
               ),
             ],
@@ -163,7 +171,10 @@ class _QuizPageState extends State<QuizPage> {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
-              child: const Text('OK', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+              child: const Text(
+                'OK',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+              ),
             ),
           ],
         ),
@@ -176,8 +187,9 @@ class _QuizPageState extends State<QuizPage> {
     setState(() {
       _selectedOptionIndex = idx;
       _submitted = true;
-      _answersCorrect.add(_questions[_currentQuestionIndex].options[idx].isCorrect);
-
+      _answersCorrect.add(
+        _questions[_currentQuestionIndex].options[idx].isCorrect,
+      );
     });
   }
 
@@ -195,14 +207,15 @@ class _QuizPageState extends State<QuizPage> {
         extendBodyBehindAppBar: true,
         appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
         body: const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(),
-                SizedBox(height: 20),
-                Text("Generating your quiz...", style: TextStyle(fontSize: 16)),
-              ],
-            )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 20),
+              Text("Generating your quiz...", style: TextStyle(fontSize: 16)),
+            ],
+          ),
+        ),
       );
     }
 
@@ -210,10 +223,18 @@ class _QuizPageState extends State<QuizPage> {
       // UI to show when an error occurs
       return Scaffold(
         appBar: AppBar(title: const Text("Error")),
-        body: Center(child: Padding(padding: const EdgeInsets.all(16.0), child: Text(_error!, textAlign: TextAlign.center, style: const TextStyle(color: Colors.red, fontSize: 16)))),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              _error!,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.red, fontSize: 16),
+            ),
+          ),
+        ),
       );
     }
-
 
     final question = _questions[_currentQuestionIndex];
     final total = _questions.length;
@@ -248,17 +269,23 @@ class _QuizPageState extends State<QuizPage> {
                     const Text(
                       "Quiz",
                       style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 26, color: Colors.black),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 26,
+                        color: Colors.black,
+                      ),
                     ),
                     const SizedBox(width: 32),
                   ],
                 ),
                 const SizedBox(height: 30),
-                 Center(
+                Center(
                   child: Text(
                     "Topic : ${widget.topic}",
                     style: TextStyle(
-                        fontWeight: FontWeight.w600, fontSize: 18, color: Colors.black87),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      color: Colors.black87,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 50),
@@ -268,14 +295,16 @@ class _QuizPageState extends State<QuizPage> {
                     Text(
                       "Question ${_currentQuestionIndex + 1} out of $total",
                       style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14,
-                          color: Colors.black54
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Colors.black54,
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.blueAccent.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(20),
@@ -287,9 +316,10 @@ class _QuizPageState extends State<QuizPage> {
                           Text(
                             "$_remainingSeconds s",
                             style: const TextStyle(
-                                fontWeight: FontWeight.w800,
-                                fontSize: 16,
-                                color: Colors.black),
+                              fontWeight: FontWeight.w800,
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
                           ),
                         ],
                       ),
@@ -302,8 +332,10 @@ class _QuizPageState extends State<QuizPage> {
                       children: [
                         const SizedBox(height: 20),
                         Container(
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 20,
+                          ),
                           decoration: BoxDecoration(
                             color: AppColors.blueColor,
                             borderRadius: BorderRadius.circular(16),
@@ -324,69 +356,77 @@ class _QuizPageState extends State<QuizPage> {
                             ),
                           ),
                         ),
-                    const SizedBox(height: 20),
-                    ...List.generate(question.options.length, (index) {
-                      final option = question.options[index];
-                      final isSelected = _selectedOptionIndex == index;
-                      final isAnswered = _submitted;
-                    
-                      Color bgColor() {
-                        if (!isAnswered) return Colors.white;
-                        if (isSelected)
-                          return option.isCorrect
-                              ? Colors.green[100]!
-                              : Colors.red[100]!;
-                        if (option.isCorrect) return Colors.green.withOpacity(0.08);
-                        return Colors.white;
-                      }
-                    
-                      Color borderColor() {
-                        if (isSelected)
-                          return option.isCorrect ? Colors.green : Colors.red;
-                        if (isAnswered && option.isCorrect) return Colors.green;
-                        return Colors.grey.shade400;
-                      }
-                    
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 14),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () => _selectOption(index),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 18, horizontal: 16),
-                                  decoration: BoxDecoration(
-                                    color: bgColor(),
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                      color: borderColor(),
-                                      width: 2.2,
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.05),
-                                        blurRadius: 6,
-                                        offset: const Offset(0, 2),
+                        const SizedBox(height: 20),
+                        ...List.generate(question.options.length, (index) {
+                          final option = question.options[index];
+                          final isSelected = _selectedOptionIndex == index;
+                          final isAnswered = _submitted;
+
+                          Color bgColor() {
+                            if (!isAnswered) return Colors.white;
+                            if (isSelected)
+                              return option.isCorrect
+                                  ? Colors.green[100]!
+                                  : Colors.red[100]!;
+                            if (option.isCorrect)
+                              return Colors.green.withOpacity(0.08);
+                            return Colors.white;
+                          }
+
+                          Color borderColor() {
+                            if (isSelected)
+                              return option.isCorrect
+                                  ? Colors.green
+                                  : Colors.red;
+                            if (isAnswered && option.isCorrect)
+                              return Colors.green;
+                            return Colors.grey.shade400;
+                          }
+
+                          return Container(
+                            margin: const EdgeInsets.only(bottom: 14),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () => _selectOption(index),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 18,
+                                        horizontal: 16,
                                       ),
-                                    ],
-                                  ),
-                                  child: Text(
-                                    option.text,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black87,
+                                      decoration: BoxDecoration(
+                                        color: bgColor(),
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(
+                                          color: borderColor(),
+                                          width: 2.2,
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(
+                                              0.05,
+                                            ),
+                                            blurRadius: 6,
+                                            offset: const Offset(0, 2),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Text(
+                                        option.text,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                      );
-                    }),
+                          );
+                        }),
                         if (_submitted && _selectedOptionIndex != null)
                           Container(
                             width: double.infinity,
@@ -395,10 +435,15 @@ class _QuizPageState extends State<QuizPage> {
                             decoration: BoxDecoration(
                               color: Colors.blueGrey[50],
                               borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Colors.blueGrey, width: 1.3),
+                              border: Border.all(
+                                color: Colors.blueGrey,
+                                width: 1.3,
+                              ),
                             ),
                             child: Text(
-                              _questions[_currentQuestionIndex].options[_selectedOptionIndex!].reason,
+                              _questions[_currentQuestionIndex]
+                                  .options[_selectedOptionIndex!]
+                                  .reason,
                               style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
@@ -407,30 +452,31 @@ class _QuizPageState extends State<QuizPage> {
                             ),
                           ),
                         SizedBox(height: ScreenSize.getHeight(context) * 0.02),
-                    Container(
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      // Or ScreenSize.getHeight(context)*0.06
-                      margin: const EdgeInsets.only(top: 2, bottom: 0),
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(13),
-                      ),
-                      child: TextButton(
-                        onPressed: _selectedOptionIndex == null && !_submitted
-                            ? null
-                            : _goToNext,
-                        child: Text(
-                          isLast ? "Submit" : "Next",
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 20,
-                            letterSpacing: 0.2,
+                        Container(
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          // Or ScreenSize.getHeight(context)*0.06
+                          margin: const EdgeInsets.only(top: 2, bottom: 0),
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(13),
+                          ),
+                          child: TextButton(
+                            onPressed:
+                                _selectedOptionIndex == null && !_submitted
+                                ? null
+                                : _goToNext,
+                            child: Text(
+                              isLast ? "Submit" : "Next",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 20,
+                                letterSpacing: 0.2,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
                       ],
                     ),
                   ),
