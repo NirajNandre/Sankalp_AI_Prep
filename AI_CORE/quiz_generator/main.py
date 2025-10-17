@@ -37,7 +37,7 @@ app = FastAPI(
     version="1.0.0",
 )
 
-@app.post("/generate-quiz/", response_model=List[Question])
+@app.post("/", response_model=List[Question])
 async def generate_quiz(request: QuizRequest):
     """
     Generates 10 quiz questions on a given topic.

@@ -19,7 +19,7 @@ class InterviewResponse(BaseModel):
     session_id: str = None
 
 
-@app.get("/interview/greeting/{user_id}")
+@app.get("/greeting/{user_id}")
 async def get_greeting(user_id: str):
     """
     Get an initial greeting to start the interview session.
@@ -46,7 +46,7 @@ async def get_greeting(user_id: str):
     }
 
 
-@app.post("/interview/chat", response_model=InterviewResponse)
+@app.post("/chat", response_model=InterviewResponse)
 async def interview_chat(req: InterviewRequest):
     """
     Handle interview chat requests.
@@ -76,7 +76,7 @@ async def interview_chat(req: InterviewRequest):
     )
 
 
-@app.get("/interview/session/{user_id}")
+@app.get("/session/{user_id}")
 async def get_session(user_id: str):
     """
     Retrieve the current session state for a user.
@@ -96,7 +96,7 @@ async def get_session(user_id: str):
     return {"user_id": user_id, "state": state}
 
 
-@app.delete("/interview/session/{user_id}")
+@app.delete("/session/{user_id}")
 async def clear_session(user_id: str):
     """
     Clear the session for a user (creates a fresh session).

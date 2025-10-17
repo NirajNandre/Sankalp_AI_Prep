@@ -29,7 +29,7 @@ app = FastAPI(
     version="1.0.0",
 )
 
-@app.post("/generate-notes-from-pdf/", response_model=NotesResponse)
+@app.post("/", response_model=NotesResponse)
 async def generate_notes_from_pdf(topic: str = Form(...), file: UploadFile = File(...)):
     """
     Accepts a PDF file and a topic, extracts text, and generates structured notes using the Gemini API.
