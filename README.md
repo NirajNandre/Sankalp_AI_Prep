@@ -1,5 +1,9 @@
 # Sankalp- A Competitve Exam Preparation Platform
 
+![Hello](https://github.com/user-attachments/assets/26a2eef8-f66b-472b-a078-b270ea371c1f)
+
+
+
 ## About
 
 A comprehensive interview preparation platform designed to help users excel in technical and professional interviews. The platform combines AI-powered mock interviews, peer-to-peer practice sessions, structured study materials, and detailed performance analytics to create a complete interview preparation ecosystem.
