@@ -11,7 +11,7 @@ class AiInterviewPage extends StatefulWidget {
   final String sessionId;
   final String userId;
 
-  const AiInterviewPage({
+  AiInterviewPage({
     Key? key,
     required this.greeting,
     required this.sessionId,
@@ -31,6 +31,7 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
   String _userTranscript = "Tap the mic to speak...";
   late String _userId;
   late String _sessionId;
+  bool _isEndingSession = false;
 
   final String _baseUrl =
       "https://ai-core-backend-180048661835.us-central1.run.app";
@@ -154,7 +155,11 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
           ),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+              padding: EdgeInsets.symmetric(
+                  horizontal: ScreenSize.getWidth(context)*0.04,
+                  vertical: ScreenSize.getHeight(context)*0.015,
+              ),
+
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -164,30 +169,30 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
                         icon: const Icon(Icons.chevron_left, size: 32),
                         onPressed: () => Navigator.of(context).pop(),
                       ),
-                      const Expanded(
+                      Expanded(
                         child: Center(
                           child: Text(
                             "Interview",
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
-                              fontSize: 26,
+                              fontSize: ScreenSize.getWidth(context)*0.065,
                               color: Colors.black,
                               letterSpacing: -0.5,
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(width: 44),
+                      SizedBox(width: ScreenSize.getWidth(context)*0.12),
                     ],
                   ),
-                  const SizedBox(height: 18),
+                  SizedBox(height: ScreenSize.getHeight(context)*0.02),
                   // AI Interviewer Container
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
                     height: ScreenSize.getHeight(context) * 0.35,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: ScreenSize.getWidth(context)*0.04,
+                      vertical: ScreenSize.getHeight(context)*0.015,
                     ),
                     decoration: BoxDecoration(
                       color: const Color(0xFFB2F3FF),
@@ -212,16 +217,16 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
                           alignment: Alignment.topRight,
                           child: Image.asset(
                             'assets/images/AI_logo.png',
-                            height: 50,
+                            height: ScreenSize.getHeight(context)*0.04,
                           ),
                         ),
-                        const Align(
+                        Align(
                           alignment: Alignment.topLeft,
                           child: Text(
                             "AI \nInterviewer",
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
-                              fontSize: 28,
+                              fontSize: ScreenSize.getWidth(context)*0.06,
                               color: Colors.black,
                               height: 1.12,
                             ),
@@ -232,8 +237,8 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
                           child: SingleChildScrollView(
                             child: Text(
                               _aiResponse,
-                              style: const TextStyle(
-                                fontSize: 16,
+                              style: TextStyle(
+                                fontSize: ScreenSize.getWidth(context)*0.032,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black87,
                               ),
@@ -243,14 +248,14 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 18),
+                  SizedBox(height: ScreenSize.getHeight(context)*0.02),
                   // User Container
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
                     height: ScreenSize.getHeight(context) * 0.35,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: ScreenSize.getWidth(context)*0.04,
+                      vertical: ScreenSize.getHeight(context)*0.015,
                     ),
                     decoration: BoxDecoration(
                       color: const Color(0xFFFFF9C8),
@@ -275,21 +280,21 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               "You",
                               style: TextStyle(
                                 fontWeight: FontWeight.w800,
-                                fontSize: 28,
+                                fontSize: ScreenSize.getWidth(context)*0.06,
                                 color: Colors.black,
                               ),
                             ),
-                            const SizedBox(height: 8),
+                            SizedBox(height: ScreenSize.getHeight(context)*0.01),
                             Expanded(
                               child: SingleChildScrollView(
                                 child: Text(
                                   _userTranscript,
-                                  style: const TextStyle(
-                                    fontSize: 16,
+                                  style: TextStyle(
+                                    fontSize: ScreenSize.getWidth(context)*0.035,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.black87,
                                   ),
@@ -300,11 +305,11 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
                         ),
                         // Aligning the IconButton to the bottom right
                         Align(
-                          alignment: Alignment.bottomRight,
+                          alignment: Alignment.bottomCenter,
                           child: IconButton(
                             icon: Icon(
                               _isListening ? Icons.mic : Icons.mic_off,
-                              size: 44,
+                              size: ScreenSize.getWidth(context)*0.1,
                               color: _isListening
                                   ? Colors.deepOrange
                                   : const Color(0xFF2C2C2C),
@@ -319,12 +324,20 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
                   const Spacer(),
                   // End Button
                   SizedBox(
-                    height: 60,
+                    height: ScreenSize.getHeight(context) * 0.06,
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        _clearSession();
-                        Navigator.pop(context);
+                      onPressed: _isEndingSession
+                          ? null
+                          : () async {
+                        setState(() => _isEndingSession = true);
+                        await _clearSession();
+                        // Short delay to let the user see the loader
+                        await Future.delayed(
+                            const Duration(milliseconds: 500));
+                        if (mounted) {
+                          Navigator.pop(context);
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFFFB2B2),
@@ -332,12 +345,26 @@ class _AiInterviewPageState extends State<AiInterviewPage> {
                           borderRadius: BorderRadius.circular(13),
                         ),
                       ),
-                      child: const Text(
+                      child: _isEndingSession
+                          ? Center(
+                        child: SizedBox(
+                          height: ScreenSize.getHeight(context) *
+                              0.02, // Control size with height
+                          child: const AspectRatio(
+                            aspectRatio: 1.0, // Force a square
+                            child: CircularProgressIndicator(
+                              color: Colors.black87,
+                              strokeWidth: 3.5,
+                            ),
+                          ),
+                        ),
+                      )
+                          : Text(
                         "End",
                         style: TextStyle(
                           color: Colors.black87,
                           fontWeight: FontWeight.w800,
-                          fontSize: 19,
+                          fontSize: ScreenSize.getWidth(context) * 0.048,
                         ),
                       ),
                     ),

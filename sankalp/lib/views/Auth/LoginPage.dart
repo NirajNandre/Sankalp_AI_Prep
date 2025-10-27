@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
           Center(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 26),
+                padding: EdgeInsets.symmetric(horizontal: ScreenSize.getWidth(context)*0.07),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                         text: TextSpan(
                           style: TextStyle(
                             fontWeight: FontWeight.w800,
-                            fontSize: 28,
+                            fontSize: ScreenSize.getWidth(context)*0.06,
                             color: Colors.black87,
                             fontFamily: 'Poppins',
                             letterSpacing: 0.1,
@@ -66,14 +66,14 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 50),
-                    const Text("Sign in to your \nAccount", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 36, height: 1.2)),
-                    const SizedBox(height: 8),
-                    const Text(
+                    SizedBox(height: ScreenSize.getHeight(context)*0.05),
+                    Text("Sign in to your \nAccount", style: TextStyle(fontWeight: FontWeight.bold, fontSize: ScreenSize.getWidth(context)*0.08, height: 1.2)),
+                    SizedBox(height: ScreenSize.getHeight(context)*0.01),
+                    Text(
                       "Enter your credentials",
-                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16, color: Colors.black87),
+                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: ScreenSize.getWidth(context)*0.04, color: Colors.black87),
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: ScreenSize.getHeight(context)*0.035),
                     // Email field
                     Container(
                       decoration: BoxDecoration(
@@ -88,19 +88,19 @@ class _LoginPageState extends State<LoginPage> {
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
+                            borderSide: const BorderSide(color: Colors.transparent),
                             borderRadius: BorderRadius.circular(13),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF2563EB), width: 2),
+                            borderSide: const BorderSide(color: Color(0xFF2563EB), width: 2),
                             borderRadius: BorderRadius.circular(13),
                           ),
                           hintText: 'Enter your email',
-                          contentPadding: EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 18),
+                    SizedBox(height: ScreenSize.getHeight(context)*0.02),
                     // Password field
                     Container(
                       decoration: BoxDecoration(
@@ -115,11 +115,11 @@ class _LoginPageState extends State<LoginPage> {
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
+                            borderSide: const BorderSide(color: Colors.transparent),
                             borderRadius: BorderRadius.circular(13),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF2563EB), width: 2),
+                            borderSide: const BorderSide(color: Color(0xFF2563EB), width: 2),
                             borderRadius: BorderRadius.circular(13),
                           ),
                           hintText: 'Enter your password',
@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: ScreenSize.getHeight(context)*0.01),
                     Row(
                       children: [
                         Checkbox(
@@ -149,9 +149,9 @@ class _LoginPageState extends State<LoginPage> {
                         const Spacer(),
                         TextButton(
                           onPressed: () {},
-                          child: const Text(
+                          child: Text(
                             "Forgot Password ?",
-                            style: TextStyle(color: Color(0xFF3B82F6), fontWeight: FontWeight.w500, fontSize: 15),
+                            style: TextStyle(color: const Color(0xFF3B82F6), fontWeight: FontWeight.w500, fontSize: ScreenSize.getWidth(context)*0.035),
                           ),
                           style: TextButton.styleFrom(
                             minimumSize: const Size(0, 0),
@@ -161,10 +161,10 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 17),
+                    SizedBox(height: ScreenSize.getHeight(context)*0.06),
                     SizedBox(
                       width: double.infinity,
-                      height: 54,
+                      height: ScreenSize.getHeight(context)*0.055,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF2563EB),
@@ -173,32 +173,32 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         onPressed: _isLoading ? null : _handleLogin,
                         child: _isLoading
-                            ? const SizedBox(
-                          width: 26,
-                          height: 26,
-                          child: CircularProgressIndicator(
+                            ? SizedBox(
+                          width: ScreenSize.getHeight(context)*0.03,
+                          height: ScreenSize.getHeight(context)*0.03,
+                          child: const CircularProgressIndicator(
                             color: Colors.white,
                             strokeWidth: 3.5,
                           ),
                         )
-                            : const Text("Log In", style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Colors.white)),
+                            : Text("Log In", style: TextStyle(fontSize: ScreenSize.getWidth(context)*0.04, fontWeight: FontWeight.bold, color: Colors.white)),
                       ),
                     ),
-                    const SizedBox(height: 18),
+                    SizedBox(height: ScreenSize.getHeight(context)*0.02),
                     Row(
                       children: [
                         Expanded(child: Divider(thickness: 1.2, color: Colors.grey[200])),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: Text("Or", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: ScreenSize.getWidth(context)*0.025),
+                          child: Text("Or", style: TextStyle(fontWeight: FontWeight.w600, fontSize: ScreenSize.getWidth(context)*0.04)),
                         ),
                         Expanded(child: Divider(thickness: 1.2, color: Colors.grey[200])),
                       ],
                     ),
-                    const SizedBox(height: 17),
+                    SizedBox(height: ScreenSize.getHeight(context)*0.02),
                     SizedBox(
                       width: double.infinity,
-                      height: 54,
+                      height: ScreenSize.getHeight(context)*0.055,
                       child: ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
@@ -210,36 +210,36 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         icon: Image.asset(
                           "assets/images/google-logo.png",
-                          height: 22,
+                          height: ScreenSize.getHeight(context)*0.02,
                         ),
                         onPressed: () {
                           // Google auth logic here
                         },
-                        label: const Text(
+                        label: Text(
                           "Continue with Google",
                           style: TextStyle(
                             color: Colors.black87,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: ScreenSize.getWidth(context)*0.04,
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    SizedBox(height: ScreenSize.getHeight(context)*0.04),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("Don't have an account? ", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15)),
+                        Text("Don't have an account? ", style: TextStyle(fontWeight: FontWeight.w500, fontSize: ScreenSize.getWidth(context)*0.032)),
                         GestureDetector(
                           onTap: () {},
-                          child: const Text(
+                          child: Text(
                             "Sign Up",
-                            style: TextStyle(color: Color(0xFF3B82F6), fontWeight: FontWeight.w600, fontSize: 15),
+                            style: TextStyle(color: const Color(0xFF3B82F6), fontWeight: FontWeight.w600, fontSize: ScreenSize.getWidth(context)*0.032),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: ScreenSize.getHeight(context)*0.02),
                   ],
                 ),
               ),

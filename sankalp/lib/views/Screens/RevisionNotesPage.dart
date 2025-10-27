@@ -15,128 +15,175 @@ class RevisionNotesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    // Responsive Markdown Style Sheet
+    final markdownStyleSheet = MarkdownStyleSheet(
+      p: TextStyle(
+        fontSize: screenWidth * 0.035, // Responsive paragraph font size
+        color: Colors.black87,
+        height: 1.5,
+      ),
+      h1: TextStyle(
+        fontSize: screenWidth * 0.055, // Responsive H1 font size
+        fontWeight: FontWeight.w800,
+        color: Colors.black,
+      ),
+      h2: TextStyle(
+        fontSize: screenWidth * 0.045, // Responsive H2 font size
+        fontWeight: FontWeight.w800,
+        color: Colors.black,
+      ),
+      listBullet: TextStyle(
+        fontSize: screenWidth * 0.04, // Responsive list font size
+        color: Colors.black87,
+      ),
+      strong: const TextStyle(
+        fontWeight: FontWeight.w800,
+      ),
+    );
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
       body: Stack(
         children: [
-          // Background Image
           Positioned.fill(
             child: Image.asset(
               "assets/images/background.png",
               fit: BoxFit.cover,
-              alignment: Alignment.topCenter,
             ),
           ),
-
-          // Content with fixed header
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 50),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Fixed Title Bar
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.chevron_left, size: 32, color: Colors.black87),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                    const Text(
-                      "Revision Notes",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                        color: Colors.black87,
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.chevron_left, size: 32),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                      Text(
+                        "Revision Notes",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: screenWidth * 0.065),
+                      ),
+                      SizedBox(
+                          width:
+                          screenWidth * 0.12), // Balance the back button
+                    ],
+                  ),
+                  SizedBox(height: screenHeight * 0.02),
+                  // Topic and Date
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          topic,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: screenWidth * 0.05),
+                        ),
+                      ),
+                      Text(
+                        date,
+                        style: TextStyle(
+                            color: Colors.black54,
+                            fontWeight: FontWeight.w500,
+                            fontSize: screenWidth * 0.035),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: screenHeight * 0.02),
+                  // Notes container
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.all(screenWidth * 0.05),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.08),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          )
+                        ],
+                      ),
+                      child: Markdown( // Changed from ListView to Markdown
+                        data: notes,
+                        padding: EdgeInsets.zero,
+                        styleSheet: markdownStyleSheet, // Using the responsive stylesheet
+                        shrinkWrap: true,
                       ),
                     ),
-                    const SizedBox(width: 48), // for symmetry
-                  ],
-                ),
-
-                const SizedBox(height: 18),
-
-                // Scrollable Note Content
-                Expanded(
-                  child: ListView(
-                    padding: const EdgeInsets.only(bottom: 40),
+                  ),
+                  SizedBox(height: screenHeight * 0.02),
+                  // Buttons Row
+                  Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.95),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
+                      Expanded(
+                        child: SizedBox(
+                          height: screenHeight * 0.06,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              foregroundColor: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
                             ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Topic Title
-                            Text(
-                              topic,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w900,
-                                fontSize: 26,
-                                color: Colors.black,
-                                height: 1.2,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-
-                            // Date
-                            Text(
-                              "Generated on: $date",
+                            child: Text(
+                              "Save",
                               style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                                color: Colors.grey[700],
-                              ),
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: screenWidth * 0.045),
                             ),
-                            const Divider(height: 30, thickness: 1, color: Colors.black12),
-
-                            // Markdown Notes
-                            MarkdownBody(
-                              data: notes,
-                              styleSheet: MarkdownStyleSheet(
-                                p: const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black87,
-                                  height: 1.5,
-                                ),
-                                h1: const TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.black,
-                                ),
-                                h2: const TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                                listBullet: const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black87,
-                                ),
-                              ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: screenWidth * 0.03),
+                      Expanded(
+                        child: SizedBox(
+                          height: screenHeight * 0.06,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
                             ),
-                          ],
+                            child: Text(
+                              "Download",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: screenWidth * 0.045),
+                            ),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
+                  SizedBox(height: screenHeight * 0.02),
+                ],
+              ),
             ),
-          ),
+          )
         ],
       ),
     );
   }
 }
+
+
+

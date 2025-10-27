@@ -9,8 +9,6 @@ class CommentCard extends StatelessWidget {
   final int comments;
   final String tag;
   final Color cardColor;
-  final VoidCallback? onTap;
-  final Widget? trailing;
 
   const CommentCard({
     required this.profileImage,
@@ -21,82 +19,83 @@ class CommentCard extends StatelessWidget {
     required this.comments,
     required this.tag,
     required this.cardColor,
-    this.onTap,
-    this.trailing,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(19),
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 15),
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: cardColor,
-          borderRadius: BorderRadius.circular(19),
-        ),
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return Card(
+      elevation: 2,
+      margin: EdgeInsets.only(bottom: screenHeight * 0.02),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
+      ),
+      color: cardColor,
+      child: Padding(
+        padding: EdgeInsets.all(screenWidth * 0.04),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                // Profile Picture
                 CircleAvatar(
-                  radius: 17,
+                  radius: screenWidth * 0.05,
                   backgroundImage: AssetImage(profileImage),
                 ),
-                SizedBox(width: 7),
+                SizedBox(width: screenWidth * 0.025),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      username,
-                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
-                    ),
-                    Text(
-                      timeAgo,
-                      style: TextStyle(fontSize: 10, color: Colors.black54),
-                    ),
+                    Text(username,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: screenWidth * 0.035)),
+                    Text(timeAgo,
+                        style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: screenWidth * 0.03)),
                   ],
                 ),
-                Spacer(),
-                if (trailing != null) trailing!,
+                const Spacer(),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.03,
+                      vertical: screenHeight * 0.005),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    tag,
+                    style: TextStyle(
+                      color: Colors.black87,
+                        fontWeight: FontWeight.w600,
+                        fontSize: screenWidth * 0.03),
+                  ),
+                ),
               ],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: screenHeight * 0.015),
             Text(
               comment,
               style: TextStyle(
-                fontSize: 15,
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-              ),
+                  fontSize: screenWidth * 0.038, fontWeight: FontWeight.w400),
             ),
-            SizedBox(height: 12),
+            SizedBox(height: screenHeight * 0.015),
             Row(
               children: [
-                Icon(Icons.favorite, color: Colors.red, size: 18),
-                SizedBox(width: 4),
-                Text('$likes', style: TextStyle(fontSize: 14)),
-                SizedBox(width: 16),
-                Icon(Icons.comment, color: Colors.black54, size: 18),
-                SizedBox(width: 4),
-                Text('$comments', style: TextStyle(fontSize: 14)),
-                Spacer(),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(9),
-                  ),
-                  child: Text(
-                    '#$tag',
-                    style: TextStyle(fontSize: 11, color: Colors.blueAccent),
-                  ),
-                ),
+                Icon(Icons.favorite_border,
+                    color: Colors.black54, size: screenWidth * 0.05),
+                SizedBox(width: screenWidth * 0.01),
+                Text('$likes', style: const TextStyle(color: Colors.black54)),
+                SizedBox(width: screenWidth * 0.04),
+                Icon(Icons.comment_outlined,
+                    color: Colors.black54, size: screenWidth * 0.05),
+                SizedBox(width: screenWidth * 0.01),
+                Text('$comments', style: const TextStyle(color: Colors.black54)),
               ],
             ),
           ],

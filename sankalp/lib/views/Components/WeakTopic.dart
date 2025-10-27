@@ -24,29 +24,29 @@ class WeakTopicCard extends StatelessWidget {
           Container(
             width: double.infinity,
             height: ScreenSize.getHeight(context)*0.18,
-            padding: EdgeInsets.all(18),
+            padding: EdgeInsets.all(ScreenSize.getWidth(context)*0.045),
             decoration: BoxDecoration(
-              color: Color(0xFFD5DBF6),
+              color: const Color(0xFFD5DBF6),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Weak Topics", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 32, height: 1)),
-                SizedBox(height: 15),
-                ...topics.map((t) => Text(t, style: TextStyle(fontSize: 12))),
-                Text("show more", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w600, height: 1.5, fontSize: 12)),
-                SizedBox(height: 5),
+                Text("Weak Topics", style: TextStyle(fontWeight: FontWeight.w800, fontSize: ScreenSize.getWidth(context)*0.07, height: 1)),
+                SizedBox(height: ScreenSize.getHeight(context)*0.015),
+                ...topics.map((t) => Text(t, style: TextStyle(fontSize: ScreenSize.getWidth(context)*0.03))),
+                Text("show more", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w600, height: 1.5, fontSize: ScreenSize.getWidth(context)*0.03)),
+                SizedBox(height: ScreenSize.getHeight(context)*0.005),
               ],
             ),
           ),
           Positioned(
-            right: -10,
-            bottom: 10,
+            right: -ScreenSize.getWidth(context)*0.001,
+            bottom: -ScreenSize.getHeight(context)*0.15,
             child: Image.asset(
               pngPath,
-              width: 180,
-              height: 180,
+              width: ScreenSize.getWidth(context)*0.4,
+              height: ScreenSize.getHeight(context)*0.5,
               fit: BoxFit.contain, // Uses the full image
             ),
           ),

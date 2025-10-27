@@ -13,7 +13,7 @@ class TopicPage extends StatefulWidget {
   final String aboutText;
   final String youtubeUrl;
 
-  const TopicPage({
+  TopicPage({
     super.key,
     required this.title,
     required this.aboutText,
@@ -100,7 +100,7 @@ class _TopicPageState extends State<TopicPage> {
       // 1. Set up the request to your new endpoint
       // Use port 8001 for the notes generator
       final url = Uri.parse(
-        'https://ai-core-backend-180048661835.us-central1.run.app/generate-notes-from-pdf/',
+        'https://ai-core-backend-180048661835.us-central1.run.app/notes-generator/',
       );
       var request = http.MultipartRequest('POST', url);
 
@@ -183,7 +183,7 @@ class _TopicPageState extends State<TopicPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 0),
+            padding: EdgeInsets.symmetric(horizontal: ScreenSize.getWidth(context) * 0.04),
             child: ListView(
               children: [
                 Row(
@@ -193,17 +193,17 @@ class _TopicPageState extends State<TopicPage> {
                       icon: const Icon(Icons.chevron_left, size: 32),
                       onPressed: () => Navigator.pop(context),
                     ),
-                    const Text(
+                    Text(
                       "Topic",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 26,
+                        fontSize: ScreenSize.getWidth(context) * 0.065,
                       ),
                     ),
-                    SizedBox(width: ScreenSize.getWidth(context) * 0.05),
+                    SizedBox(width: ScreenSize.getWidth(context) * 0.1),
                   ],
                 ),
-                SizedBox(height: ScreenSize.getHeight(context) * 0.05),
+                SizedBox(height: ScreenSize.getHeight(context) * 0.02),
                 // Youtube Player
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
@@ -213,7 +213,7 @@ class _TopicPageState extends State<TopicPage> {
                     progressIndicatorColor: Colors.blueAccent,
                   ),
                 ),
-                const SizedBox(height: 18),
+                SizedBox(height: ScreenSize.getHeight(context) * 0.025),
                 // Title and progress indicator
                 Row(
                   children: [
@@ -223,16 +223,16 @@ class _TopicPageState extends State<TopicPage> {
                         children: [
                           Text(
                             widget.title,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 26,
+                              fontSize: ScreenSize.getWidth(context) * 0.06,
                               color: Colors.black,
                             ),
                           ),
-                          const Text(
+                          Text(
                             'Prof. Mohammad Pasha',
                             style: TextStyle(
-                              fontSize: 13,
+                              fontSize: ScreenSize.getWidth(context) * 0.03,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -246,13 +246,13 @@ class _TopicPageState extends State<TopicPage> {
                             shape: BoxShape.circle,
                             border: Border.all(color: Colors.blueAccent),
                           ),
-                          padding: const EdgeInsets.all(10),
-                          child: const Text(
+                          padding: EdgeInsets.all(ScreenSize.getWidth(context) * 0.025),
+                          child: Text(
                             "20%",
                             style: TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.bold,
-                              fontSize: 12,
+                              fontSize: ScreenSize.getWidth(context) * 0.03,
                             ),
                           ),
                         ),
@@ -268,16 +268,16 @@ class _TopicPageState extends State<TopicPage> {
                   ],
                 ),
                 SizedBox(height: ScreenSize.getHeight(context) * 0.03),
-                const Text(
+                Text(
                   'About',
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
-                    fontSize: 20,
+                    fontSize: ScreenSize.getWidth(context) * 0.05,
                     color: Colors.black,
                   ),
                 ),
                 aboutSection(widget.aboutText),
-                const SizedBox(height: 18),
+                SizedBox(height: ScreenSize.getHeight(context) * 0.025),
                 // Four Grid Buttons
                 GridView.count(
                   crossAxisCount: 2,
@@ -285,7 +285,7 @@ class _TopicPageState extends State<TopicPage> {
                   crossAxisSpacing: 12,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  childAspectRatio: 2.6,
+                  childAspectRatio: 2.4,
                   children: [
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -306,12 +306,12 @@ class _TopicPageState extends State<TopicPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           // The Expanded ensures the text column uses all available space
-                          Expanded(
+                          const Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text(
+                                Text(
                                   "Ask AI",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w800,
@@ -320,7 +320,7 @@ class _TopicPageState extends State<TopicPage> {
                                     height: 1.05,
                                   ),
                                 ),
-                                const SizedBox(height: 8),
+                                SizedBox(height: 8),
                                 Text(
                                   "clear doubts by AI",
                                   style: TextStyle(
@@ -398,7 +398,7 @@ class _TopicPageState extends State<TopicPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const PdfViewerPage(
+                            builder: (_) => PdfViewerPage(
                               assetPath: "assets/pdfs/fundamental-rights.pdf",
                             ),
                           ),
@@ -485,7 +485,7 @@ class _TopicPageState extends State<TopicPage> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white,
-                    minimumSize: const Size(double.infinity, 60),
+                    minimumSize: Size(double.infinity, ScreenSize.getHeight(context) * 0.07),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(13),
                     ),
@@ -493,22 +493,22 @@ class _TopicPageState extends State<TopicPage> {
                   icon: Image.asset("assets/images/AI_logo.png", height: 22),
                   onPressed: _isGeneratingNotes ? null : _generateAiNotes,
                   label: _isGeneratingNotes
-                      ? const Text(
+                      ? Text(
                           "Generating...",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                            fontSize: ScreenSize.getWidth(context) * 0.045,
                           ),
                         )
-                      : const Text(
+                      : Text(
                           "Get AI Generated Notes",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                            fontSize: ScreenSize.getWidth(context) * 0.045,
                           ),
                         ),
                 ),
-                const SizedBox(height: 65),
+                SizedBox(height: ScreenSize.getHeight(context) * 0.08),
               ],
             ),
           ),

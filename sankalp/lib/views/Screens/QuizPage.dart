@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 class QuizPage extends StatefulWidget {
   final String topic;
-  const QuizPage({super.key, required this.topic});
+  QuizPage({super.key, required this.topic});
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -32,8 +32,7 @@ class _QuizPageState extends State<QuizPage> {
 
   Future<void> _loadQuestions() async {
     // Use '10.0.2.2' for Android emulator or your computer's IP for a physical device.
-    const String baseUrl =
-        'https://ai-core-backend-180048661835.us-central1.run.app';
+    String baseUrl = 'https://ai-core-backend-180048661835.us-central1.run.app';
     final Uri url = Uri.parse('$baseUrl/generate-quiz/');
 
     try {
@@ -205,7 +204,13 @@ class _QuizPageState extends State<QuizPage> {
     if (_isLoading) {
       return Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
+        appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(Icons.chevron_left, size: 32),
+              onPressed: () => Navigator.pop(context),
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0),
         body: const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -251,237 +256,256 @@ class _QuizPageState extends State<QuizPage> {
               fit: BoxFit.cover,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 64, 16, 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.chevron_left, size: 32),
-                      onPressed: () {
-                        // Standard practice: pop the current route to go back
-                        Navigator.pop(context);
-                      },
-                    ),
-                    const Text(
-                      "Quiz",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 26,
-                        color: Colors.black,
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: ScreenSize.getWidth(context) * 0.04),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.chevron_left, size: 32),
+                        onPressed: () {
+                          // Standard practice: pop the current route to go back
+                          Navigator.pop(context);
+                        },
                       ),
-                    ),
-                    const SizedBox(width: 32),
-                  ],
-                ),
-                const SizedBox(height: 30),
-                Center(
-                  child: Text(
-                    "Topic : ${widget.topic}",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                      color: Colors.black87,
+                      Text(
+                        "Quiz",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: ScreenSize.getWidth(context) * 0.065,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(width: ScreenSize.getWidth(context) * 0.1),
+                    ],
+                  ),
+                  SizedBox(height: ScreenSize.getHeight(context) * 0.03),
+                  Center(
+                    child: Text(
+                      "Topic : ${widget.topic}",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: ScreenSize.getWidth(context) * 0.045,
+                        color: Colors.black87,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 50),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Question ${_currentQuestionIndex + 1} out of $total",
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.blueAccent.withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.timer, color: Colors.blueAccent),
-                          const SizedBox(width: 6),
-                          Text(
-                            "$_remainingSeconds s",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 16,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 20),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 20,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.blueColor,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: Colors.black, width: 1.0),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.05),
-                                blurRadius: 6,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: Text(
-                            question.question,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                            ),
-                          ),
+                  SizedBox(height: ScreenSize.getHeight(context) * 0.05),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Question ${_currentQuestionIndex + 1} out of $total",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: ScreenSize.getWidth(context) * 0.035,
+                          color: Colors.black54,
                         ),
-                        const SizedBox(height: 20),
-                        ...List.generate(question.options.length, (index) {
-                          final option = question.options[index];
-                          final isSelected = _selectedOptionIndex == index;
-                          final isAnswered = _submitted;
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: ScreenSize.getWidth(context) * 0.03,
+                          vertical: ScreenSize.getHeight(context) * 0.01,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.timer, color: Colors.blueAccent),
+                            SizedBox(
+                                width: ScreenSize.getWidth(context) * 0.015),
+                            Text(
+                              "$_remainingSeconds s",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontSize: ScreenSize.getWidth(context) * 0.04,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                              height: ScreenSize.getHeight(context) * 0.02),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: ScreenSize.getWidth(context) * 0.05,
+                              vertical: ScreenSize.getHeight(context) * 0.025,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.blueColor,
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  blurRadius: 6,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Text(
+                              question.question,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: ScreenSize.getWidth(context) * 0.04,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: ScreenSize.getWidth(context) * 0.08),
+                          ...List.generate(question.options.length, (index) {
+                            final option = question.options[index];
+                            final isSelected = _selectedOptionIndex == index;
+                            final isAnswered = _submitted;
 
-                          Color bgColor() {
-                            if (!isAnswered) return Colors.white;
-                            if (isSelected)
-                              return option.isCorrect
-                                  ? Colors.green[100]!
-                                  : Colors.red[100]!;
-                            if (option.isCorrect)
-                              return Colors.green.withOpacity(0.08);
-                            return Colors.white;
-                          }
+                            Color bgColor() {
+                              if (!isAnswered) return Colors.white;
+                              if (isSelected)
+                                return option.isCorrect
+                                    ? Colors.green[100]!
+                                    : Colors.red[100]!;
+                              if (option.isCorrect)
+                                return Colors.green.withOpacity(0.08);
+                              return Colors.white;
+                            }
 
-                          Color borderColor() {
-                            if (isSelected)
-                              return option.isCorrect
-                                  ? Colors.green
-                                  : Colors.red;
-                            if (isAnswered && option.isCorrect)
-                              return Colors.green;
-                            return Colors.grey.shade400;
-                          }
+                            Color borderColor() {
+                              if (isSelected)
+                                return option.isCorrect
+                                    ? Colors.green
+                                    : Colors.red;
+                              if (isAnswered && option.isCorrect)
+                                return Colors.green;
+                              return Colors.grey.shade400;
+                            }
 
-                          return Container(
-                            margin: const EdgeInsets.only(bottom: 14),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: GestureDetector(
-                                    onTap: () => _selectOption(index),
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 18,
-                                        horizontal: 16,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: bgColor(),
-                                        borderRadius: BorderRadius.circular(12),
-                                        border: Border.all(
-                                          color: borderColor(),
-                                          width: 2.2,
+                            return Container(
+                              margin: EdgeInsets.only(
+                                  bottom:
+                                      ScreenSize.getHeight(context) * 0.018),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () => _selectOption(index),
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical:
+                                              ScreenSize.getHeight(context) *
+                                                  0.022,
+                                          horizontal:
+                                              ScreenSize.getWidth(context) *
+                                                  0.04,
                                         ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(
-                                              0.05,
-                                            ),
-                                            blurRadius: 6,
-                                            offset: const Offset(0, 2),
+                                        decoration: BoxDecoration(
+                                          color: bgColor(),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          border: Border.all(
+                                            color: borderColor(),
+                                            width: 2.2,
                                           ),
-                                        ],
-                                      ),
-                                      child: Text(
-                                        option.text,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black87,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey.withOpacity(
+                                                0.05,
+                                              ),
+                                              blurRadius: 6,
+                                              offset: const Offset(0, 2),
+                                            ),
+                                          ],
+                                        ),
+                                        child: Text(
+                                          option.text,
+                                          style: TextStyle(
+                                            fontSize:
+                                                ScreenSize.getWidth(context) *
+                                                    0.035,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black87,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
+                                ],
+                              ),
+                            );
+                          }),
+                          if (_submitted && _selectedOptionIndex != null)
+                            Container(
+                              width: double.infinity,
+                              margin: EdgeInsets.only(
+                                  bottom:
+                                      ScreenSize.getHeight(context) * 0.025),
+                              padding: const EdgeInsets.all(14),
+                              decoration: BoxDecoration(
+                                color: Colors.blueGrey[50],
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: Colors.blueGrey,
+                                  width: 1.3,
                                 ),
-                              ],
+                              ),
+                              child: Text(
+                                _questions[_currentQuestionIndex]
+                                    .options[_selectedOptionIndex!]
+                                    .reason,
+                                style: TextStyle(
+                                  fontSize:
+                                      ScreenSize.getWidth(context) * 0.035,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black87,
+                                ),
+                              ),
                             ),
-                          );
-                        }),
-                        if (_submitted && _selectedOptionIndex != null)
+                          SizedBox(
+                              height: ScreenSize.getHeight(context) * 0.01),
                           Container(
                             width: double.infinity,
-                            margin: const EdgeInsets.only(bottom: 20),
-                            padding: const EdgeInsets.all(14),
+                            height: ScreenSize.getHeight(context) * 0.065,
                             decoration: BoxDecoration(
-                              color: Colors.blueGrey[50],
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: Colors.blueGrey,
-                                width: 1.3,
-                              ),
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(13),
                             ),
-                            child: Text(
-                              _questions[_currentQuestionIndex]
-                                  .options[_selectedOptionIndex!]
-                                  .reason,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ),
-                        SizedBox(height: ScreenSize.getHeight(context) * 0.02),
-                        Container(
-                          width: double.infinity,
-                          height: MediaQuery.of(context).size.height * 0.06,
-                          // Or ScreenSize.getHeight(context)*0.06
-                          margin: const EdgeInsets.only(top: 2, bottom: 0),
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(13),
-                          ),
-                          child: TextButton(
-                            onPressed:
-                                _selectedOptionIndex == null && !_submitted
-                                ? null
-                                : _goToNext,
-                            child: Text(
-                              isLast ? "Submit" : "Next",
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 20,
-                                letterSpacing: 0.2,
+                            child: TextButton(
+                              onPressed:
+                                  _selectedOptionIndex == null && !_submitted
+                                      ? null
+                                      : _goToNext,
+                              child: Text(
+                                isLast ? "Submit" : "Next",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize:
+                                      ScreenSize.getWidth(context) * 0.045,
+                                  letterSpacing: 0.2,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            height: ScreenSize.getHeight(context) * 0.02,
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

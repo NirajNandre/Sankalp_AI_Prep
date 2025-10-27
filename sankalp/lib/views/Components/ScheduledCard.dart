@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sankalp/utils/constants.dart';
 
 class ScheduledSessionCard extends StatelessWidget {
   final String title;
@@ -23,8 +24,8 @@ class ScheduledSessionCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        margin: EdgeInsets.only(bottom: 8),
-        padding: EdgeInsets.all(15),
+        margin: EdgeInsets.only(bottom: ScreenSize.getHeight(context)*0.01),
+        padding: EdgeInsets.all(ScreenSize.getWidth(context)*0.04),
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(18),
@@ -34,19 +35,19 @@ class ScheduledSessionCard extends StatelessWidget {
           children: [
             Text(title, style: TextStyle(
               fontWeight: FontWeight.w800,
-              fontSize: 22,
+              fontSize: ScreenSize.getWidth(context)*0.055,
               height: 1.12,
             ),),
-            SizedBox(height: 6),
+            SizedBox(height: ScreenSize.getHeight(context)*0.007),
             Text(subtitle, style: TextStyle(
-              fontSize: 12,
+              fontSize: ScreenSize.getWidth(context)*0.03,
               fontWeight: FontWeight.w500,
               color: Colors.black87,
               height: 1.12,
             ),),
-            SizedBox(height: 50),
+            SizedBox(height: ScreenSize.getHeight(context)*0.05),
             Text("In $timeLeft", style: TextStyle(
-              fontSize: 20,
+              fontSize: ScreenSize.getWidth(context)*0.04,
               fontWeight: FontWeight.w600,
               color: Colors.black87,
             ),

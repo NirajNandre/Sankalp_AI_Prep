@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sankalp/utils/constants.dart';
 
 class ProfileTile extends StatelessWidget {
   final String title;
@@ -16,26 +17,26 @@ class ProfileTile extends StatelessWidget {
       borderRadius: BorderRadius.circular(14),
       onTap: onTap,
       child: Container(
-        height: 50,
-        margin: EdgeInsets.only(bottom: 10),
+        height: ScreenSize.getHeight(context) * 0.065,
+        margin: EdgeInsets.only(bottom: ScreenSize.getHeight(context) * 0.012),
         decoration: BoxDecoration(
-          color: Color.fromRGBO(237, 241, 243, 100),
+          color: const Color.fromRGBO(237, 241, 243, 100),
           borderRadius: BorderRadius.circular(14),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 17),
+              padding: EdgeInsets.only(left: ScreenSize.getWidth(context) * 0.04),
               child: Text(
                 title,
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: ScreenSize.getWidth(context) * 0.042),
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Padding(
-              padding: EdgeInsets.only(right: 17),
-              child: Icon(Icons.chevron_right, color: Colors.black, size: 28),
+              padding: EdgeInsets.only(right: ScreenSize.getWidth(context) * 0.04),
+              child: Icon(Icons.chevron_right, color: Colors.black, size: ScreenSize.getWidth(context) * 0.07),
             ),
           ],
         ),

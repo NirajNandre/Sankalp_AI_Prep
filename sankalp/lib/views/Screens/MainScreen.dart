@@ -38,7 +38,8 @@ class _MainScreenState extends State<MainScreen> {
       extendBody: true,
       body: _pages[_currentIndex],
       bottomNavigationBar: SizedBox(
-        height: 110,
+        width: double.infinity,
+        height: ScreenSize.getHeight(context)*0.14,
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -62,22 +63,24 @@ class _MainScreenState extends State<MainScreen> {
                 ],
                 backgroundColor: Colors.black,
                 borderRadius: 16,
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                margin: EdgeInsets.symmetric(
+                    horizontal: ScreenSize.getHeight(context)*0.002,
+                    vertical: ScreenSize.getWidth(context)*0.04),
                 selectedBackgroundColor: Colors.transparent,
                 selectedItemColor: Colors.blue,
                 unselectedItemColor: Colors.white,
-                iconSize: 32,
+                iconSize: ScreenSize.getWidth(context)*0.08,
               ),
             ),
             Positioned(
-              bottom: 40,
+              bottom: ScreenSize.getHeight(context)*0.055,
               child: GestureDetector(
                 onTap: () {
                   setState(() => _currentIndex = 2);
                 },
                 child: Container(
-                  width: 70,
-                  height: 70,
+                  width: ScreenSize.getWidth(context)*0.18,
+                  height: ScreenSize.getWidth(context)*0.18,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white,
@@ -88,7 +91,7 @@ class _MainScreenState extends State<MainScreen> {
                       BoxShadow(
                         color: Colors.black.withOpacity(0.15),
                         blurRadius: 12,
-                        offset: Offset(0, 4),
+                        offset: const Offset(0, 4),
                       ),
                     ],
                   ),
@@ -98,8 +101,8 @@ class _MainScreenState extends State<MainScreen> {
                       child: Image.asset(
                         'assets/images/AI_logo.png',
                         fit: BoxFit.contain,
-                        height: 30,
-                        width: 30,
+                        height: ScreenSize.getWidth(context)*0.075,
+                        width: ScreenSize.getWidth(context)*0.075,
                       ),
                     ),
                   ),

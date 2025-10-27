@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:sankalp/utils/constants.dart';
 
 
 class SubjectCard extends StatelessWidget {
@@ -22,7 +23,7 @@ class SubjectCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(15),
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(14),
+        padding: EdgeInsets.all(ScreenSize.getWidth(context)*0.025),
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(15),
@@ -41,16 +42,16 @@ class SubjectCard extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: AutoSizeText(
                           name,
-                          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                          style: TextStyle(fontWeight: FontWeight.w700, fontSize: ScreenSize.getWidth(context)*0.035),
                           maxLines: 1,
                           minFontSize: 14,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Icon(Icons.chevron_right, color: Colors.black, size: 28),
+                      Icon(Icons.chevron_right, color: Colors.black, size: ScreenSize.getWidth(context)*0.06),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: ScreenSize.getHeight(context)*0.01),
                   Row(
                     children: [
                       Expanded(
@@ -62,10 +63,10 @@ class SubjectCard extends StatelessWidget {
                           minHeight: 3,
                         ),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Text(
                         "${(progress * 100).round()}% completed",
-                        style: TextStyle(fontSize: 10, color: Colors.black54, fontWeight: FontWeight.w500),
+                        style: TextStyle(fontSize: ScreenSize.getWidth(context)*0.025, color: Colors.black54, fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),

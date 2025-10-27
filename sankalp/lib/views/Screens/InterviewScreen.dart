@@ -93,300 +93,301 @@ class _InterviewPageState extends State<InterviewPage> {
               alignment: Alignment.topCenter,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 60),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Title bar with back and AI icon
-                  Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.chevron_left, size: 32),
-                        onPressed: () {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MainScreen(),
-                            ),
-                            (route) => false,
-                          );
-                        },
-                      ),
-                      const Spacer(),
-                      const Text(
-                        "Interview",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 26,
-                        ),
-                      ),
-                      const Spacer(),
-                      Image.asset('assets/images/AI_logo.png', height: 24),
-                    ],
-                  ),
-                  const SizedBox(height: 35),
-
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Column 1: AI Mock Interview
-                      Expanded(
-                        flex: 1,
-                        child: InfoCard(
-                          onTap: _isLoading ? null : _startAiInterview,
-                          color: AppColors.blueColor,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "AI Mock \nInterview",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 26,
-                                      height: 1.12,
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Icon(
-                                    Icons.auto_awesome,
-                                    color: Colors.blue,
-                                    size: 28,
-                                  ),
-                                ],
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: ScreenSize.getWidth(context)*0.035),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Title bar with back and AI icon
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.chevron_left, size: 32),
+                          onPressed: () {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MainScreen(),
                               ),
-                              const SizedBox(height: 10),
-                              const Text(
-                                "Start audio \nsession",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  height: 1.12,
+                              (route) => false,
+                            );
+                          },
+                        ),
+                        const Spacer(),
+                        Text(
+                          "Interview",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: ScreenSize.getWidth(context)*0.065,
+                          ),
+                        ),
+                        const Spacer(),
+                        Image.asset('assets/images/AI_logo.png', height: ScreenSize.getHeight(context)*0.03),
+                      ],
+                    ),
+                    SizedBox(height: ScreenSize.getHeight(context)*0.03),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Column 1: AI Mock Interview
+                        Expanded(
+                          flex: 1,
+                          child: InfoCard(
+                            onTap: _isLoading ? null : _startAiInterview,
+                            color: AppColors.blueColor,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "AI Mock \nInterview",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: ScreenSize.getWidth(context)*0.06,
+                                        height: 1.12,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Icon(
+                                      Icons.auto_awesome,
+                                      color: Colors.blue,
+                                      size: ScreenSize.getWidth(context)*0.07,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: ScreenSize.getHeight(context)*0.01),
+                                Text(
+                                  "Start audio \nsession",
+                                  style: TextStyle(
+                                    fontSize: ScreenSize.getWidth(context)*0.032,
+                                    fontWeight: FontWeight.w500,
+                                    height: 1.12,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: ScreenSize.getHeight(context) * 0.125,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: ScreenSize.getWidth(context)*0.025),
+                        // Column 2: GD Simulator and Interview History stacked
+                        Expanded(
+                          flex: 1,
+                          child: Column(
+                            children: [
+                              InfoCard(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          AiDiscussionPage(),
+                                    ),
+                                  );
+                                },
+                                color: const Color(0xFFE2E2FF),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "GD \nSimulator",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: ScreenSize.getWidth(context)*0.06,
+                                            height: 1.12,
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        Icon(
+                                          Icons.auto_awesome,
+                                          color: Colors.purple,
+                                          size: ScreenSize.getWidth(context)*0.06,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: ScreenSize.getHeight(context)*0.005),
+                                    Text(
+                                      "Generate topic &\ndiscuss",
+                                      style: TextStyle(
+                                        fontSize: ScreenSize.getWidth(context)*0.03,
+                                        fontWeight: FontWeight.w500,
+                                        height: 1.12,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height:
+                                          ScreenSize.getHeight(context) * 0.02,
+                                    ),
+                                  ],
                                 ),
                               ),
-                              SizedBox(
-                                height: ScreenSize.getHeight(context) * 0.112,
+                              SizedBox(height: ScreenSize.getHeight(context)*0.012),
+                              InfoCard(
+                                color: const Color(0xFFF8EBB1),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Interview & GD \nHistory",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: ScreenSize.getWidth(context)*0.038,
+                                            height: 1.12,
+                                          ),
+                                        ),
+                                        Icon(Icons.chevron_right, size: ScreenSize.getWidth(context)*0.06),
+                                      ],
+                                    ),
+                                    SizedBox(height: ScreenSize.getHeight(context)*0.01),
+                                    Text(
+                                      "Review past sessions",
+                                      style: TextStyle(
+                                        fontSize: ScreenSize.getWidth(context)*0.03,
+                                        fontWeight: FontWeight.w500,
+                                        height: 1.12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      // Column 2: GD Simulator and Interview History stacked
-                      Expanded(
-                        flex: 1,
-                        child: Column(
-                          children: [
-                            InfoCard(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const AiDiscussionPage(),
-                                  ),
-                                );
-                              },
-                              color: const Color(0xFFE2E2FF),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "GD \nSimulator",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w800,
-                                          fontSize: 26,
-                                          height: 1.12,
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      Icon(
-                                        Icons.auto_awesome,
-                                        color: Colors.purple,
-                                        size: 24,
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 5),
-                                  const Text(
-                                    "Generate topic &\ndiscuss",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      height: 1.12,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height:
-                                        ScreenSize.getHeight(context) * 0.02,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            const InfoCard(
-                              color: Color(0xFFF8EBB1),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Interview & GD \nHistory",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w800,
-                                          fontSize: 18,
-                                          height: 1.12,
-                                        ),
-                                      ),
-                                      Icon(Icons.chevron_right, size: 24),
-                                    ],
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    "Review past sessions",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      height: 1.12,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-
-                  // Live Practice Arena
-                  const Text(
-                    "Live Practice Arena",
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-                  ),
-                  const SizedBox(height: 10),
-                  InfoCard(
-                    color: const Color(0xFFD3EBFC),
-                    child: Stack(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "1-1 interview with \nmentor",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                                fontSize: 27,
-                                height: 1.12,
-                              ),
-                            ),
-                            const SizedBox(height: 7),
-                            const Text(
-                              "Schedule interview with mentor",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black87,
-                                height: 1.12,
-                              ),
-                            ),
-                            const SizedBox(height: 50),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  "Claim daily xp",
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(11),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 9,
-                                    vertical: 4,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      const Text(
-                                        "+20",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 2),
-                                      Icon(
-                                        Icons.flash_on,
-                                        color: Colors.yellow[700],
-                                        size: 15,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        // Red indicator dot
-                        Positioned(
-                          right: 0,
-                          child: Container(
-                            width: 8,
-                            height: 8,
-                            decoration: const BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        ),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "Scheduled Session",
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-                  ),
-                  const SizedBox(height: 10),
-                  const ScheduledSessionCard(
-                    title: "Interview of Polity",
-                    subtitle: "Prof. Mohammad Pasha",
-                    timeLeft: "1h:02m",
-                    color: Color(0xFFF8EBB1),
-                  ),
-                  const ScheduledSessionCard(
-                    title: "GD - Science & Tech",
-                    subtitle: "Prof. Anjali Verma",
-                    timeLeft: "2h:15m",
-                    color: Color(0xFFE2E2FF),
-                  ),
-                  const ScheduledSessionCard(
-                    title: "Interview of Fundamental Rights",
-                    subtitle: "Prof. Vikram Aditya",
-                    timeLeft: "4h:15m",
-                    color: Color(0xFFC8FFD3),
-                  ),
-                ],
+                    SizedBox(height: ScreenSize.getHeight(context)*0.02),
+            
+                    // Live Practice Arena
+                    Text(
+                      "Live Practice Arena",
+                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: ScreenSize.getWidth(context)*0.045),
+                    ),
+                    SizedBox(height: ScreenSize.getHeight(context)*0.01),
+                    InfoCard(
+                      color: const Color(0xFFD3EBFC),
+                      child: Stack(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "1-1 interview with \nmentor",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: ScreenSize.getWidth(context)*0.06,
+                                  height: 1.12,
+                                ),
+                              ),
+                              SizedBox(height: ScreenSize.getHeight(context)*0.01),
+                              Text(
+                                "Schedule interview with mentor",
+                                style: TextStyle(
+                                  fontSize: ScreenSize.getWidth(context)*0.04,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black87,
+                                  height: 1.12,
+                                ),
+                              ),
+                              SizedBox(height: ScreenSize.getHeight(context)*0.06),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Claim daily xp",
+                                    style: TextStyle(
+                                      fontSize: ScreenSize.getWidth(context)*0.035,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black87,
+                                    ),
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(11),
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: ScreenSize.getWidth(context)*0.02,
+                                      vertical: ScreenSize.getHeight(context)*0.005,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "+20",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: ScreenSize.getWidth(context)*0.038,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 2),
+                                        Icon(
+                                          Icons.flash_on,
+                                          color: Colors.yellow[700],
+                                          size: ScreenSize.getWidth(context)*0.04,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          // Red indicator dot
+                          Positioned(
+                            right: 0,
+                            child: Container(
+                              width: 8,
+                              height: 8,
+                              decoration: const BoxDecoration(
+                                color: Colors.red,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: ScreenSize.getHeight(context)*0.02),
+                    Text(
+                      "Scheduled Session",
+                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: ScreenSize.getWidth(context)*0.045),
+                    ),
+                    SizedBox(height: ScreenSize.getHeight(context)*0.01),
+                    const ScheduledSessionCard(
+                      title: "Interview of Polity",
+                      subtitle: "Prof. Mohammad Pasha",
+                      timeLeft: "1h:02m",
+                      color: Color(0xFFF8EBB1),
+                    ),
+                    const ScheduledSessionCard(
+                      title: "GD - Science & Tech",
+                      subtitle: "Prof. Anjali Verma",
+                      timeLeft: "2h:15m",
+                      color: Color(0xFFE2E2FF),
+                    ),
+                    const ScheduledSessionCard(
+                      title: "Interview of Fundamental Rights",
+                      subtitle: "Prof. Vikram Aditya",
+                      timeLeft: "4h:15m",
+                      color: Color(0xFFC8FFD3),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

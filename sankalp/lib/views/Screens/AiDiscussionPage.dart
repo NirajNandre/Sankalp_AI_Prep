@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sankalp/utils/constants.dart';
 
 class AiDiscussionPage extends StatefulWidget {
-  const AiDiscussionPage({Key? key}) : super(key: key);
+  AiDiscussionPage({Key? key}) : super(key: key);
 
   @override
   State<AiDiscussionPage> createState() => _AiDiscussionPageState();
@@ -10,6 +10,17 @@ class AiDiscussionPage extends StatefulWidget {
 
 class _AiDiscussionPageState extends State<AiDiscussionPage> {
   bool isListening = false;
+  bool _isEndingSession = false;
+
+  Future<void> _clearSession() async {
+    // if (_userId.isNotEmpty) {
+    //   try {
+    //     await http.delete(Uri.parse("$_baseUrl/interview/session/$_userId"));
+    //   } catch (e) {
+    //     print("Error clearing session: $e");
+    //   }
+    // }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +38,10 @@ class _AiDiscussionPageState extends State<AiDiscussionPage> {
           ),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+              padding: EdgeInsets.symmetric(
+                  horizontal:ScreenSize.getWidth(context)*0.04,
+                  vertical: ScreenSize.getHeight(context)*0.015
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -38,20 +52,20 @@ class _AiDiscussionPageState extends State<AiDiscussionPage> {
                         icon: const Icon(Icons.chevron_left, size: 32),
                         onPressed: () => Navigator.of(context).pop(),
                       ),
-                      const Expanded(
+                      Expanded(
                         child: Center(
                           child: Text(
                             "AI Discussion",
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
-                              fontSize: 26,
+                              fontSize: ScreenSize.getWidth(context)*0.065,
                               color: Colors.black,
                               letterSpacing: -0.5,
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(width: 44),
+                      SizedBox(width: ScreenSize.getWidth(context)*0.12),
                     ],
                   ),
                   SizedBox(height: ScreenSize.getHeight(context) * 0.05),
@@ -86,19 +100,19 @@ class _AiDiscussionPageState extends State<AiDiscussionPage> {
                                   padding: const EdgeInsets.all(10),
                                   child: Image.asset(
                                     'assets/images/AI_logo.png',
-                                    height: 32,
+                                    height: ScreenSize.getHeight(context)*0.035,
                                   ),
                                 ),
                               ),
-                              const Align(
+                              Align(
                                 alignment: Alignment.topLeft,
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 10, top: 14),
+                                  padding: const EdgeInsets.only(left: 10, top: 14),
                                   child: Text(
                                     "Max",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w800,
-                                      fontSize: 26,
+                                      fontSize: ScreenSize.getWidth(context)*0.05,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -135,19 +149,19 @@ class _AiDiscussionPageState extends State<AiDiscussionPage> {
                                   padding: const EdgeInsets.all(10),
                                   child: Image.asset(
                                     'assets/images/AI_logo.png',
-                                    height: 32,
+                                    height: ScreenSize.getHeight(context)*0.035,
                                   ),
                                 ),
                               ),
-                              const Align(
+                              Align(
                                 alignment: Alignment.topLeft,
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 10, top: 14),
+                                  padding: const EdgeInsets.only(left: 10, top: 14),
                                   child: Text(
                                     "Alen",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w800,
-                                      fontSize: 26,
+                                      fontSize: ScreenSize.getWidth(context)*0.05,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -159,11 +173,13 @@ class _AiDiscussionPageState extends State<AiDiscussionPage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: ScreenSize.getHeight(context)*0.025),
                   // User Container
                   Container(
                     height: ScreenSize.getHeight(context) * 0.3,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: ScreenSize.getWidth(context)*0.04,
+                        vertical: ScreenSize.getHeight(context)*0.015),
                     decoration: BoxDecoration(
                       color: const Color(0xFFFFF9C8),
                       borderRadius: BorderRadius.circular(16),
@@ -179,11 +195,11 @@ class _AiDiscussionPageState extends State<AiDiscussionPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           "You",
                           style: TextStyle(
                             fontWeight: FontWeight.w800,
-                            fontSize: 32,
+                            fontSize: ScreenSize.getWidth(context)*0.05,
                             color: Colors.black,
                           ),
                         ),
@@ -192,7 +208,7 @@ class _AiDiscussionPageState extends State<AiDiscussionPage> {
                           child: IconButton(
                             icon: Icon(
                               isListening ? Icons.mic : Icons.mic_off,
-                              size: 44,
+                              size: ScreenSize.getWidth(context)*0.1,
                               color: isListening
                                   ? Colors.deepOrange
                                   : const Color(0xFF2C2C2C),
@@ -209,27 +225,47 @@ class _AiDiscussionPageState extends State<AiDiscussionPage> {
                   const Spacer(),
                   // End Button
                   SizedBox(
-                    height: 60,
+                    height: ScreenSize.getHeight(context) * 0.06,
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
+                      onPressed: _isEndingSession
+                          ? null
+                          : () async {
+                        setState(() => _isEndingSession = true);
+                        await _clearSession();
+                        // Short delay to let the user see the loader
+                        await Future.delayed(
+                            const Duration(milliseconds: 500));
+                        if (mounted) {
+                          Navigator.pop(context);
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFFFB2B2),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(13),
                         ),
-                        elevation: 0.7,
-                        textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 19),
                       ),
-                      child: const Text(
+                      child: _isEndingSession
+                          ? Center(
+                        child: SizedBox(
+                          height: ScreenSize.getHeight(context) *
+                              0.02, // Control size with height
+                          child: const AspectRatio(
+                            aspectRatio: 1.0, // Force a square
+                            child: CircularProgressIndicator(
+                              color: Colors.black87,
+                              strokeWidth: 3.5,
+                            ),
+                          ),
+                        ),
+                      )
+                          : Text(
                         "End",
                         style: TextStyle(
                           color: Colors.black87,
                           fontWeight: FontWeight.w800,
-                          fontSize: 20,
-                          letterSpacing: 0.8,
+                          fontSize: ScreenSize.getWidth(context) * 0.048,
                         ),
                       ),
                     ),

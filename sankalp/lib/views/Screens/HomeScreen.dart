@@ -23,7 +23,9 @@ class HomePage extends StatelessWidget {
           ),
           // Main content
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 60),
+            padding: EdgeInsets.symmetric(
+                horizontal: ScreenSize.getWidth(context)*0.035,
+                vertical: ScreenSize.getHeight(context)*0.07),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,21 +33,21 @@ class HomePage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Icon(Icons.menu, size: 32),
+                      Icon(Icons.menu, size: ScreenSize.getWidth(context)*0.08),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 1.5),
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0.8),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: const Row(
+                            child: Row(
                               children: [
-                                Icon(Icons.local_fire_department, color: Colors.orange, size: 28),
-                                SizedBox(width: 4),
-                                Text("7", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22)),
+                                Icon(Icons.local_fire_department, color: Colors.orange, size: ScreenSize.getHeight(context)*0.03),
+                                const SizedBox(width: 3),
+                                Text("7", style: TextStyle(fontWeight: FontWeight.w700, fontSize: ScreenSize.getWidth(context)*0.055)),
                               ],
                             ),
                           ),
@@ -54,9 +56,9 @@ class HomePage extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                               decoration: BoxDecoration(
                                 color: const Color.fromRGBO(255, 202, 117,30),
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                              child: const Icon(Icons.notifications_none_sharp, color: Colors.deepOrange, size: 26)),
+                              child:  Icon(Icons.notifications_none_sharp, color: Colors.deepOrange, size: ScreenSize.getWidth(context)*0.065)),
                         ],
                       ),
                     ],
@@ -65,9 +67,9 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                       height: ScreenSize.getHeight(context)*0.1,
                   ),
-                  const Text("Hello,\nRaj Verma!", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 40, height: 1.12)),
+                  Text("Hello,\nRaj Verma!", style: TextStyle(fontWeight: FontWeight.w800, fontSize: ScreenSize.getWidth(context)*0.08, height: 1.12)),
                   SizedBox(height: ScreenSize.getHeight(context)*0.04),
-                  const Text("Today's", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20)),
+                  Text("Today's", style: TextStyle(fontWeight: FontWeight.w700, fontSize: ScreenSize.getWidth(context)*0.05)),
                   const SizedBox(height: 12),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +78,7 @@ class HomePage extends StatelessWidget {
                       Expanded(
                         flex: 46,
                         child: SizedBox(
-                          height: ScreenSize.getHeight(context)*0.27,
+                          height: ScreenSize.getHeight(context)*0.32,
                           child: InfoCard(
                             color: const Color(0xFFD7E7FB),
                             child: Stack(
@@ -84,25 +86,25 @@ class HomePage extends StatelessWidget {
                                 Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text("Daily Quizes", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 34, height: 1.12),),
+                                  Text("Daily Quizes", style: TextStyle(fontWeight: FontWeight.w800, fontSize: ScreenSize.getWidth(context)*0.085, height: 1.12),),
                                   const SizedBox(height: 6,),
-                                  const Text("Based on \nPYQ's", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                                  SizedBox(height: ScreenSize.getHeight(context)*0.07),
+                                  Text("Based on \nPYQ's", style: TextStyle(fontSize: ScreenSize.getWidth(context)*0.04, fontWeight: FontWeight.w500)),
+                                  SizedBox(height: ScreenSize.getHeight(context)*0.1),
                                   Row(
                                     children: [
-                                      const Text("Claim daily xp", style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500)),
+                                      Text("Claim daily xp", style: TextStyle(fontSize: ScreenSize.getWidth(context)*0.03, fontWeight: FontWeight.w500)),
                                       const Spacer(),
                                       Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                                         decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius: BorderRadius.circular(8),
                                         ),
-                                        child: const Row(
+                                        child: Row(
                                           children: [
-                                            Text("+20", style: TextStyle(fontWeight: FontWeight.bold)),
-                                            SizedBox(width: 4),
-                                            Icon(Icons.flash_on, color: Colors.yellow, size: 18),
+                                            Text("+20", style: TextStyle(fontWeight: FontWeight.bold, fontSize: ScreenSize.getWidth(context)*0.025)),
+                                            const SizedBox(width: 2),
+                                            Icon(Icons.flash_on, color: Colors.yellow, size: ScreenSize.getWidth(context)*0.035),
                                           ],
                                         ),
                                       ),
@@ -114,9 +116,9 @@ class HomePage extends StatelessWidget {
                                   top:  5,
                                   right: 2,
                                   child: Container(
-                                    width: 10,
-                                    height: 10,
-                                    decoration: BoxDecoration(
+                                    width: 8,
+                                    height: 8,
+                                    decoration: const BoxDecoration(
                                       color: Colors.red,
                                       shape: BoxShape.circle,
                                     ),
@@ -138,9 +140,9 @@ class HomePage extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text("Live Lectures", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 26, height: 1.12)),
+                                  Text("Live Lectures", style: TextStyle(fontWeight: FontWeight.w800, fontSize: ScreenSize.getWidth(context)*0.065, height: 1.12)),
                                   const SizedBox(height: 5,),
-                                  const Text("Join Live:", style: TextStyle(fontSize: 12, color: Colors.black)),
+                                  Text("Join Live:", style: TextStyle(fontSize: ScreenSize.getWidth(context)*0.03, color: Colors.black)),
                                   const SizedBox(height: 16),
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -148,9 +150,9 @@ class HomePage extends StatelessWidget {
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(8),
                                     ),
-                                    child: const Text(
+                                    child: Text(
                                       "Article 370 & Federalism",
-                                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+                                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: ScreenSize.getWidth(context)*0.03),
                                     ),
                                   ),
                                 ],
@@ -162,8 +164,8 @@ class HomePage extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text("Chapter 4", style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20)),
-                                  const Text("Polity - Fundamental rights", style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500)),
+                                  Text("Chapter 4", style: TextStyle(fontWeight: FontWeight.w800, fontSize: ScreenSize.getWidth(context)*0.05)),
+                                  Text("Polity - Fundamental rights", style: TextStyle(fontSize: ScreenSize.getWidth(context)*0.025, fontWeight: FontWeight.w500)),
                                   const SizedBox(height: 6),
                                   Row(
                                     children: [
@@ -177,7 +179,7 @@ class HomePage extends StatelessWidget {
                                         ),
                                       ),
                                       const SizedBox(width: 8),
-                                      const Text("30% completed", style: TextStyle(fontSize: 10, color: Colors.blueGrey)),
+                                      Text("30% completed", style: TextStyle(fontSize: ScreenSize.getWidth(context)*0.025, color: Colors.blueGrey)),
                                     ],
                                   ),
                                 ],
@@ -185,7 +187,7 @@ class HomePage extends StatelessWidget {
                               onTap: (){
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const SubjectPage()),
+                                  MaterialPageRoute(builder: (context) => SubjectPage()),
                                 );
                               },
                             ),
@@ -195,7 +197,7 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  const Text("Progress Overview", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20)),
+                  Text("Progress Overview", style: TextStyle(fontWeight: FontWeight.w700, fontSize: ScreenSize.getWidth(context)*0.05)),
                   const SizedBox(height: 10),
                   const WeakTopicCard(
                     pngPath: "assets/images/target.png",
@@ -204,7 +206,8 @@ class HomePage extends StatelessWidget {
                       "History - 1887 Revolt",
                       "Politics - Government",
                     ],
-                  )
+                  ),
+                  SizedBox(height: ScreenSize.getHeight(context)*0.1,)
                 ],
               ),
             ),

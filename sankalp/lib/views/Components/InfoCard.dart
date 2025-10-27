@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sankalp/utils/constants.dart';
 
 class InfoCard extends StatelessWidget {
   final Color color;
@@ -15,13 +16,13 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(ScreenSize.getWidth(context)*0.045),
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(ScreenSize.getWidth(context)*0.04),
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(ScreenSize.getWidth(context)*0.045),
         ),
         child: child,
       ),

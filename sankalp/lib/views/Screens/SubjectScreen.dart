@@ -6,7 +6,7 @@ import 'package:sankalp/views/Screens/TopicPage.dart';
 
 class SubjectPage extends StatefulWidget {
   // You can pass data like subjectName, topics, etc through this constructor
-  const SubjectPage({super.key});
+  SubjectPage({super.key});
   @override
   State<SubjectPage> createState() => _SubjectPageState();
 
@@ -82,7 +82,7 @@ class _SubjectPageState extends State<SubjectPage> {
           ),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
+              padding: EdgeInsets.symmetric(horizontal: ScreenSize.getWidth(context) * 0.035),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -94,23 +94,23 @@ class _SubjectPageState extends State<SubjectPage> {
                         icon: const Icon(Icons.chevron_left, size: 28),
                         onPressed: () => Navigator.pop(context),
                       ),
-                      const Expanded(
+                      Expanded(
                         child: Center(
                             child: Text(
                               "Subject",
                               style: TextStyle(
                                 fontWeight: FontWeight.w800,
-                                fontSize: 26,
+                                fontSize: ScreenSize.getWidth(context) * 0.065,
                                 color: Colors.black,
                                 letterSpacing: 0.3,
                               ),
                             )
                         ),
                       ),
-                      SizedBox(width: ScreenSize.getWidth(context)*0.05,)
+                      SizedBox(width: ScreenSize.getWidth(context)*0.1)
                     ],
                   ),
-                  const SizedBox(height: 24),
+                  SizedBox(height: ScreenSize.getHeight(context) * 0.02),
                   // Top info card
                   Container(
                     width: double.infinity,
@@ -121,48 +121,48 @@ class _SubjectPageState extends State<SubjectPage> {
                     child: Stack(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(18.0),
+                          padding: EdgeInsets.all(ScreenSize.getWidth(context) * 0.045),
                           child: Row(
                             children: [
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
+                                    Text(
                                       "Polity",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 28,
+                                        fontSize: ScreenSize.getWidth(context) * 0.07,
                                         color: Colors.black,
                                       ),
                                     ),
-                                    const SizedBox(height: 2),
-                                    const Text(
+                                    SizedBox(height: ScreenSize.getHeight(context) * 0.002),
+                                    Text(
                                       "by Prof. Mohammad Pasha",
-                                      style: TextStyle(fontSize: 14, color: Colors.black87, fontWeight: FontWeight.w500),
+                                      style: TextStyle(fontSize: ScreenSize.getWidth(context) * 0.035, color: Colors.black87, fontWeight: FontWeight.w500),
                                     ),
-                                    const SizedBox(height: 13),
-                                    const Row(
+                                    SizedBox(height: ScreenSize.getHeight(context) * 0.015),
+                                    Row(
                                       crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
                                         Text(
                                           "28",
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 40,
+                                            fontSize: ScreenSize.getWidth(context) * 0.1,
                                             color: Colors.black,
                                           ),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(bottom: 10, left: 4),
+                                          padding: const EdgeInsets.only(bottom: 10, left: 4),
                                           child: Text(
                                             "hours spent",
-                                            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 17),
+                                            style: TextStyle(fontWeight: FontWeight.w400, fontSize: ScreenSize.getWidth(context) * 0.04),
                                           ),
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 7),
+                                    SizedBox(height: ScreenSize.getHeight(context) * 0.01),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -175,9 +175,9 @@ class _SubjectPageState extends State<SubjectPage> {
                                             borderRadius: BorderRadius.circular(5),
                                           ),
                                         ),
-                                        const SizedBox(width: 8),
-                                        const Text("30% completed", style: TextStyle(fontSize: 10,color: Colors.black54)),
-                                        const SizedBox(width: 60),
+                                        SizedBox(width: ScreenSize.getWidth(context) * 0.02),
+                                        Text("30% completed", style: TextStyle(fontSize: ScreenSize.getWidth(context) * 0.025,color: Colors.black54)),
+                                        SizedBox(width: ScreenSize.getWidth(context) * 0.15),
                                         Container(
                                           decoration: BoxDecoration(
                                             color: Colors.white,
@@ -201,11 +201,11 @@ class _SubjectPageState extends State<SubjectPage> {
                         ),
                         // Notification dot
                         Positioned(
-                          top: 10,
+                          top: 15,
                           right: 14,
                           child: Container(
-                            width: 10,
-                            height: 10,
+                            width: 8,
+                            height: 8,
                             decoration: const BoxDecoration(
                               color: Colors.red,
                               shape: BoxShape.circle,
@@ -215,19 +215,19 @@ class _SubjectPageState extends State<SubjectPage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  const Text(
+                  SizedBox(height: ScreenSize.getHeight(context) * 0.025),
+                  Text(
                     "Topics",
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: Colors.black),
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: ScreenSize.getWidth(context) * 0.05, color: Colors.black),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: ScreenSize.getWidth(context) * 0.05),
                   // GridView of topic cards (scrollable only this part)
                   Expanded(
                     child: GridView.count(
                       crossAxisCount: 2,
                       crossAxisSpacing: 11,
                       mainAxisSpacing: 14,
-                      childAspectRatio: 1.19,
+                      childAspectRatio: 0.95,
                       physics: const BouncingScrollPhysics(),
                       children: [
                         for (int i = 0; i < topics.length; i++)
